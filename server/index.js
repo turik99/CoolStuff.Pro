@@ -9,7 +9,6 @@ const awsBucketName = process.env.AWS_BUCKET_NAME
 const awsRegion = process.env.AWS_BUCKET_REGION
 const awsKey = process.env.AWS_BUCKET_KEY
 const awsSecret = process.env.AWS_SECRET_KEY 
-
 const s3 = new S3({
   region: awsRegion, 
   accessKeyId: awsKey, 
@@ -59,9 +58,8 @@ app.listen(PORT, ()=> {
   if (process.env.NODE_ENV === "production") {
     console.log("server running in production")
     app.use(express.static(path.join(__dirname, "build")))
-    
     app.get("/*", (req, res) => {
-      res.sendFile(path.join(__dirname, "build", "index.html"));
+      res.sendFile(path.join(__dirname, "../build/index.html"));
     });
   }
   
