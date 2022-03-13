@@ -5,6 +5,8 @@ const path = require('path');
 const PORT = process.env.PORT || 8080
 const axios = require("axios")
 const { S3 } = require("aws-sdk")
+const Busboy = require("busboy")
+
 const awsBucketName = process.env.AWS_BUCKET_NAME
 const awsRegion = process.env.AWS_BUCKET_REGION
 const awsKey = process.env.AWS_BUCKET_KEY
@@ -39,18 +41,25 @@ app.post("/enter_new_item", (req, res) => {
 
 
 app.post("/upload_image", (req, res)=>{
+  
+
   console.log("got /upload_image")
   console.log("request from client", req)
-  console.log("file from client", req.files.files[0])
-  s3.upload({
-    Bucket: awsBucketName,
-    Body: req.file.image,
-    Key: req.file
-  }).promise().then((result) => {
-    res.send(result)
-  }).catch((error) => {
-    console.log("aws error: ", error)
-  })
+  const busboy = new Busboy({headers: req.headers})
+  busboy.on("file", (fieldname, file, filename, encoding, mimetype) => {
+    console.log("got to on file busboy", file)
+    s3.putObject({
+      Bucket: awsBucketName,
+      Body: file,
+      Key: filename
+    }).promise().then((result) => {
+      res.send(result)
+    }).catch((error) => {
+      console.log("aws error: ", error)
+    })
+  } )
+
+  
 })
 
 app.set('port', (process.env.PORT || 8080));

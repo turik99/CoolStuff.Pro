@@ -115,18 +115,17 @@ const UploadObjectView = () => {
     if (window.location.hostname === "localhost"){
       urlAppend = "https://localhost:8080"
     }
-  
-
 
     const uploadData:FormData = new FormData()
     uploadData.append("test.jpg", image)
 
     axios.post(urlAppend + "/upload_image", uploadData)
       .then((response)=>{
-        console.log("response from AWS", response)
+        console.log(response)
+        
       })
       .catch((error)=>{
-        console.log("failure from AWS", error)
+        console.log(error)
       })
 
 
