@@ -41,7 +41,7 @@ app.post("/enter_new_item", (req, res) => {
 app.post("/upload_image", (req, res)=>{
   console.log("got /upload_image")
   console.log("request from client", req)
-  console.log("file from client", req.file)
+  console.log("file from client", req.files)
   s3.upload({
     Bucket: awsBucketName,
     Body: req.file.image,
