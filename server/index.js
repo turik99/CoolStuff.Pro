@@ -5,6 +5,7 @@ const path = require('path');
 const PORT = process.env.PORT || 8080
 const axios = require("axios")
 const { S3 } = require("aws-sdk")
+var enforce = require('express-sslify');
 
 
 
@@ -62,6 +63,7 @@ app.get("/*", (req, res) => {
   "build", "index.html"));
 });
 
+app.use(enforce.HTTPS())
 app.use(express.static(path.join(__dirname, "build")));
 
 app.listen(()=>{
