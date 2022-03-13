@@ -23,14 +23,16 @@ const s3 = new S3({
 
 
 app.get('/test', (req, res) => {
+  console.log("got /test path")
   res.send('Hello World!')
 })
 
 app.get("/get_next_item", (req, res) =>{
-    
+    console.log("got /get_next_item")
 })
 
 app.get("/get_new_items", (req, res) => {
+
   if (req.body.category === "none"){
     var responseObj = {}
   }
@@ -43,7 +45,7 @@ app.post("/enter_new_item", (req, res) => {
 
 
 app.post("/upload_image", (req, res)=>{
-  console.log("")
+  console.log("got /upload_image")
   console.log("request from client", req.body)
   s3.upload({
     Bucket: awsBucketName,
@@ -55,6 +57,7 @@ app.post("/upload_image", (req, res)=>{
 })
 
 app.get("/*", (req, res) => {
+  console.log("got empty path")
   res.sendFile(path.join(__dirname,
   "build", "index.html"));
 });
