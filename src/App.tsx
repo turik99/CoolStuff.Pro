@@ -109,7 +109,7 @@ const UploadObjectView = () => {
   function uploadImageToS3(image: File){
     const uploadData:FormData = new FormData()
     uploadData.append(image.name, image)
-    axios.post("https://best-things.herokuapp.com/upload_image", uploadData)
+    axios.post("/upload_image", uploadData)
       .then((response)=>{
         console.log("response from AWS", response)
       })

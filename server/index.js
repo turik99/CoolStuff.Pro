@@ -1,7 +1,7 @@
 require("dotenv").config()
 const express = require('express')
 const app = express()
-const PORT = 8080
+const PORT = process.env.PORT || 8080
 const AWS = require("aws-sdk")
 const axios = require("axios")
 const { S3 } = require("aws-sdk")
@@ -42,6 +42,13 @@ app.post("/enter_new_item", (req, res) => {
   
 
 })
+
+app.use(express.static(path.join(__dirname, "/ranker/build")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname,
+  "/ranker/build", "index.html"));
+});
 
 app.post("/upload_image", (req, res)=>{
   console.log("")
