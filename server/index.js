@@ -2,11 +2,9 @@ require("dotenv").config()
 const express = require('express')
 const app = express()
 const PORT = process.env.PORT || 8080
-const AWS = require("aws-sdk")
 const axios = require("axios")
 const { S3 } = require("aws-sdk")
 
-const http = require("http")
 const https = require('https');
 const fs = require('fs');
 
@@ -43,11 +41,11 @@ app.post("/enter_new_item", (req, res) => {
 
 })
 
-app.use(express.static(path.join(__dirname, "/ranker/build")));
+app.use(express.static(path.join(__dirname, "build")));
 
-app.get("*", (req, res) => {
+app.get("/*", (req, res) => {
   res.sendFile(path.join(__dirname,
-  "/ranker/build", "index.html"));
+  "build", "index.html"));
 });
 
 app.post("/upload_image", (req, res)=>{
@@ -69,8 +67,6 @@ const credentials = {
 };
 
 
-var httpServer = http.createServer(app);
 var httpsServer = https.createServer(credentials, app);
 
-httpServer.listen(8443);
 httpsServer.listen(PORT);
