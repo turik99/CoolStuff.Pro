@@ -3,8 +3,7 @@ import './App.css';
 import likeImage from "./thumbup.svg"
 import dislikeImage from "./thumbdown.svg"
 import axios from 'axios';
-
-
+import FormData from 'form-data';
 function App() {
   const [pageContent, setPageContent] = useState("UploadObjectView")
   var content = {}
@@ -118,7 +117,6 @@ const UploadObjectView = () => {
 
     const uploadData:FormData = new FormData()
     uploadData.append("file", image)
-
     axios.post(urlAppend + "/upload_image", uploadData)
       .then((response)=>{
         console.log(response)
