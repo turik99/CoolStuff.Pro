@@ -43,7 +43,7 @@ app.post("/enter_new_item", (req, res) => {
 app.post("/upload_image", (req, res)=>{
   console.log("got /upload_image")
   const bb = busboy({headers: req.headers})
-  busboy.on("file", (fieldname, file, filename, encoding, mimetype) => {
+  bb.on("file", (fieldname, file, filename, encoding, mimetype) => {
     console.log("got to on file busboy", file)
     s3.putObject({
       Bucket: awsBucketName,
