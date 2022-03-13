@@ -5,11 +5,6 @@ const path = require('path');
 const PORT = process.env.PORT || 8080
 const axios = require("axios")
 const { S3 } = require("aws-sdk")
-
-
-
-
-
 const awsBucketName = process.env.AWS_BUCKET_NAME
 const awsRegion = process.env.AWS_BUCKET_REGION
 const awsKey = process.env.AWS_BUCKET_KEY
@@ -57,14 +52,15 @@ app.post("/upload_image", (req, res)=>{
 })
 
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "build")))
-      
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "build", "index.html"));
-  });
-}
 
 app.listen(()=>{
   console.log("server created and listening on " + PORT)
+  if (process.env.NODE_ENV === "production") {
+    app.use(express.static(path.join(__dirname, "build")))
+    
+    app.get("*", (req, res) => {
+      res.sendFile(path.join(__dirname, "build", "index.html"));
+    });
+  }
+  
 })
