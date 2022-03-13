@@ -39,7 +39,6 @@ app.post("/enter_new_item", (req, res) => {
 
 })
 
-app.use(express.static(path.join(__dirname, "build")));
 
 app.get("/*", (req, res) => {
   res.sendFile(path.join(__dirname,
@@ -58,6 +57,7 @@ app.post("/upload_image", (req, res)=>{
   })
 })
 
+app.use(express.static(path.join(__dirname, "build")));
 
 app.listen(()=>{
   console.log("server created and listening on " + PORT)
