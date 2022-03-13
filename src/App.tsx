@@ -108,17 +108,19 @@ const UploadObjectView = () => {
   )
 
   function uploadImageToS3(image: File){
-
+    console.log("file in upload check", image)
 
     //stupid shit to deal w/ heroku server
     var urlAppend: string = ""
     if (window.location.hostname === "localhost"){
-      urlAppend = "https://best-things.herokuapp.com"
+      urlAppend = "https://localhost:8080"
     }
   
 
+
     const uploadData:FormData = new FormData()
-    uploadData.append(image.name, image)
+    uploadData.append("test.jpg", image)
+
     axios.post(urlAppend + "/upload_image", uploadData)
       .then((response)=>{
         console.log("response from AWS", response)
