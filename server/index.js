@@ -5,7 +5,7 @@ const path = require('path');
 const PORT = process.env.PORT || 8080
 const axios = require("axios")
 const { S3 } = require("aws-sdk")
-const Busboy = require("busboy")
+const busboy = require("busboy")
 
 const awsBucketName = process.env.AWS_BUCKET_NAME
 const awsRegion = process.env.AWS_BUCKET_REGION
@@ -42,7 +42,7 @@ app.post("/enter_new_item", (req, res) => {
 
 app.post("/upload_image", (req, res)=>{
   console.log("got /upload_image")
-  const busboy = new Busboy({headers: req.headers})
+  const bb = busboy({headers: req.headers})
   busboy.on("file", (fieldname, file, filename, encoding, mimetype) => {
     console.log("got to on file busboy", file)
     s3.putObject({
