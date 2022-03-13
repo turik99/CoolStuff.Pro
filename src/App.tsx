@@ -119,7 +119,7 @@ const UploadObjectView = () => {
 
     const uploadData:FormData = new FormData()
     uploadData.append(image.name, image)
-    axios.post("/upload_image", uploadData)
+    axios.post(urlAppend + "/upload_image", uploadData)
       .then((response)=>{
         console.log("response from AWS", response)
       })
