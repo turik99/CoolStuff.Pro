@@ -117,12 +117,12 @@ const UploadObjectView = () => {
     }
 
     const uploadData:FormData = new FormData()
-    uploadData.append("test.jpg", image)
+    uploadData.append("file", image)
 
     axios.post(urlAppend + "/upload_image", uploadData)
       .then((response)=>{
         console.log(response)
-        
+
       })
       .catch((error)=>{
         console.log(error)
