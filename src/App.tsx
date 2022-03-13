@@ -96,7 +96,7 @@ const UploadObjectView = () => {
       <input value={description}
         onChange={(e) => {setDescription(e.target.value)}} ></input>
       <h2>Picture</h2>
-      <input type="file" onChange={ (e) => { if ( e.target.files !== null ) {uploadImageToS3( e.target.files[0] )}}}></input>
+      <input type="file" name="file" onChange={ (e) => { if ( e.target.files !== null ) {uploadImageToS3( e.target.files[0] )}}}></input>
       <h2>Categories</h2>
       <input value={categories}
         onChange={(e) => {setCategories(e.target.value)}} ></input>
