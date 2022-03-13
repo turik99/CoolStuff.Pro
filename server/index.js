@@ -51,11 +51,13 @@ app.post("/upload_image", (req, res)=>{
   })
 })
 
+app.set('port', (process.env.PORT || 8080));
 
 
-app.listen(()=>{
+app.listen(PORT, ()=> {
   console.log("server created and listening on " + PORT)
   if (process.env.NODE_ENV === "production") {
+    console.log("server running in production")
     app.use(express.static(path.join(__dirname, "build")))
     
     app.get("*", (req, res) => {
