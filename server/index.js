@@ -5,7 +5,6 @@ const path = require('path');
 const PORT = process.env.PORT || 8080
 const axios = require("axios")
 const { S3 } = require("aws-sdk")
-var enforce = require('express-sslify');
 
 
 
@@ -57,14 +56,6 @@ app.post("/upload_image", (req, res)=>{
   })
 })
 
-app.get("/*", (req, res) => {
-  console.log("got empty path")
-  res.sendFile(path.join(__dirname,
-  "build", "index.html"));
-});
-
-app.use(enforce.HTTPS())
-app.use(express.static(path.join(__dirname, "build")));
 
 app.listen(()=>{
   console.log("server created and listening on " + PORT)
