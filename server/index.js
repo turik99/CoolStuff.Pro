@@ -5,9 +5,6 @@ const PORT = process.env.PORT || 8080
 const axios = require("axios")
 const { S3 } = require("aws-sdk")
 
-const https = require('https');
-const fs = require('fs');
-
 
 
 const awsBucketName = process.env.AWS_BUCKET_NAME
@@ -61,12 +58,6 @@ app.post("/upload_image", (req, res)=>{
 })
 
 
-const credentials = {
-  key: fs.readFileSync('key.pem'),
-  cert: fs.readFileSync('cert.pem')
-};
-
-
-var httpsServer = https.createServer(credentials, app);
-
-httpsServer.listen(PORT);
+app.listen(()=>{
+  console.log("server created and listening on " + PORT)
+})
