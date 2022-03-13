@@ -8,6 +8,8 @@ const { S3 } = require("aws-sdk")
 
 
 
+
+
 const awsBucketName = process.env.AWS_BUCKET_NAME
 const awsRegion = process.env.AWS_BUCKET_REGION
 const awsKey = process.env.AWS_BUCKET_KEY
@@ -40,11 +42,6 @@ app.post("/enter_new_item", (req, res) => {
 })
 
 
-app.get("/*", (req, res) => {
-  res.sendFile(path.join(__dirname,
-  "build", "index.html"));
-});
-
 app.post("/upload_image", (req, res)=>{
   console.log("")
   console.log("request from client", req.body)
@@ -56,6 +53,11 @@ app.post("/upload_image", (req, res)=>{
     res.send(result)
   })
 })
+
+app.get("/*", (req, res) => {
+  res.sendFile(path.join(__dirname,
+  "build", "index.html"));
+});
 
 app.use(express.static(path.join(__dirname, "build")));
 
