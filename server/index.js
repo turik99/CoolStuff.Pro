@@ -5,6 +5,7 @@ const path = require('path');
 const PORT = process.env.PORT || 8080
 const axios = require("axios")
 const { S3 } = require("aws-sdk")
+const {MongoClient} = require("mongodb")
 const upload = require("express-fileupload");
 
 const awsBucketName = process.env.AWS_BUCKET_NAME
@@ -19,6 +20,14 @@ const s3 = new S3({
 
 app.use(upload())
 
+
+const uri = "mongodb+srv://best-things-server:<" + process.env.MONGODB_PASSWORD + ">@cluster0.dewpn.mongodb.net/bestThingsDB?retryWrites=true&w=majority"
+const mongoClient = new MongoClient(uri)
+mongoClient.connect()
+const db = mongoClient.db("bestThingsDB")
+const objectsCollection = db.collection("objects")
+
+
 app.get('/test', (req, res) => {
   console.log("got /test path")
   res.send('Hello World!')
@@ -29,21 +38,28 @@ app.get("/get_next_item", (req, res) =>{
 })
 
 app.get("/get_new_items", (req, res) => {
-
   if (req.body.category === "none"){
-    var responseObj = {}
+
   }
 })
 
-app.post("/enter_new_item", (req, res) => {
-  
+app.post("/enter_new_object", (req, res) => {
+  console.log("got to /enter_new_object")
+  console.log(req.body)
+  objectsCollection.insertOne(req.body).then((result)=>{
+    console.log("successfully inserted object to mongodb")
+    res.send("successfully inserted", result)
+  })
+  .catch((error)=>{
+    console.log("failure to insert to db", error )
+    res.send(error)
+  })
 
 })
 
 
 app.post("/upload_image", (req, res)=>{
   console.log("got /upload_image")
-
   console.log("process test", process, process.env)
   console.log("file test", req.files.file)
   console.log("awsBucketName", awsBucketName)
@@ -58,8 +74,6 @@ app.post("/upload_image", (req, res)=>{
       console.log("aws error putObject...")
       console.log("aws error: ", error)
     })
-
-  
 })
 
 app.set('port', (process.env.PORT || 8080));

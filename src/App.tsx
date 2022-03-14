@@ -16,10 +16,6 @@ function App() {
   }
   return (
     <div >
-        <h1>
-          Welcome to the best things in the universe.
-        </h1>
-        <h2>vote on a few items to get started!</h2>
         <div style={{display: "flex", justifyContent: "center"}}>
         {content}
         </div>
@@ -59,15 +55,6 @@ const RankerCard = (props: CardProps) => {
   )
 }
 
-function uploadObject(uploadItem: UploadItem){
-  axios.get("/test").then((result)=>{
-    console.log("restult from test", result)
-  })
-
-}
-
-
-
 interface UploadItem{
   name: string
   description: string
@@ -78,13 +65,18 @@ interface UploadItem{
 }
 
 
+
+
+
+
+
 const UploadObjectView = () => {
   const [name, setName] = useState("")
   const [description, setDescription] = useState("")
-  const [categories, setCategories] = useState("")
+  const [categories, setCategories] = useState([""])
   const [imageUrl, setImageUrl] = useState("")
 
-  var uploadItem: UploadItem = {name: name, description: description, imageUrl: imageUrl, categories: [categories], upvotes: 0, downvotes: 0}
+  var uploadItem: UploadItem = {name: name, description: description, imageUrl: imageUrl, categories: categories, upvotes: 0, downvotes: 0}
 
   return(
     <div>
@@ -99,8 +91,7 @@ const UploadObjectView = () => {
       <input type="file" name="file" onChange={ (e) => { if ( e.target.files !== null ) {uploadImageToS3( e.target.files[0] )}}}></input>
       <h2>Categories</h2>
       <input value={categories}
-        onChange={(e) => {setCategories(e.target.value)}} ></input>
-
+        onChange={(e) => {setCategories(e.target.value.split(","))}} ></input>
       <button onClick={()=>{uploadObject(uploadItem)}}>Upload Object</button>
     </div>
   
@@ -109,20 +100,14 @@ const UploadObjectView = () => {
   function uploadImageToS3(image: File){
     console.log("file in upload check", image)
 
-    //stupid shit to deal w/ heroku server
-    var urlAppend: string = ""
-    if (window.location.hostname === "localhost"){
-      urlAppend = "https://localhost:8080"
-    }
-
     const uploadData:FormData = new FormData()
     uploadData.append("file", image)
-
+    const awsURL = "https://big-bucket-of-objects.s3.us-west-1.amazonaws.com/"
     console.log("form data check", uploadData)
-    axios.post(urlAppend + "/upload_image", uploadData, {headers:{ "Content-Type": "multipart/form-data" }})
+    axios.post("/upload_image", uploadData, {headers:{ "Content-Type": "multipart/form-data" }})
       .then((response)=>{
         console.log(response)
-
+        setImageUrl(awsURL + image.name)
       })
       .catch((error)=>{
         console.log(error)
@@ -130,7 +115,21 @@ const UploadObjectView = () => {
 
 
   }
-  
+
+  function uploadObject(uploadItem: UploadItem){
+    if (imageUrl!==""){
+      axios.post("/enter_new_object", uploadItem)
+      .then((result)=>{
+        console.log("result from enter new item", result)
+      })
+      .catch((error)=>{
+        console.log("error from new item", error)
+      })
+    }
+    else{
+      alert("please upload an image first!")
+    }
+  }
 }
 
 export default App;
