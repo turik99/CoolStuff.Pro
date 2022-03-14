@@ -8,8 +8,8 @@ function App() {
   const [pageContent, setPageContent] = useState("UploadObjectView")
   var content = {}
 
-  if (pageContent === "RankerWindow"){
-    content = <RankerWindow numberOfItems={1} category="none" />
+  if (pageContent === "ObjectWindow"){
+    content = <ObjectWindow numberOfItems={2} category="car" />
   }
   if (pageContent === "UploadObjectView"){
     content = <UploadObjectView />
@@ -24,19 +24,41 @@ function App() {
 }
 
 
-interface RankerWindowProps{
+interface ObjectWindowProps{
   numberOfItems: number
   category: string
 }
 
-const RankerWindow = (props: RankerWindowProps) =>{
+interface ObjectType{
+  id: string
+  name: string
+  description: string
+  imageUrl: string
+  categories: string[]
+  upvotes: number
+  downvotes: number
+
+}
+
+
+const ObjectWindow = (props: ObjectWindowProps) =>{
+  var objectsArray: ObjectType[] = []
+  axios.get<ObjectType[]>("/get_new_objects", {headers: {"quantity": props.numberOfItems, "category": props.category}})
+  .then((result)=>{
+    console.log("result form get new objs", result)
+    objectsArray = result.data
+  })
+
+  
+
   return(
     <div style={{width: "288pt", height: "432pt", backgroundColor: "grey"}}>
       <div style={{ display: "flex", width: "288pt", height: "72pt", justifyContent: "center", marginTop: "360pt"}}>
+
         <img style={{backgroundImage: `url(${likeImage}`, 
         backgroundRepeat: "no-repeat", backgroundSize: "cover", width: "48pt", height: "48pt"}} />
         <img style={{backgroundImage: `url(${dislikeImage}`,
-         backgroundRepeat: "no-repeat", backgroundSize: "cover", width: "48pt", height: "48pt"}} />
+        backgroundRepeat: "no-repeat", backgroundSize: "cover", width: "48pt", height: "48pt"}} />
       </div>
     </div>)
 }
@@ -47,13 +69,17 @@ interface CardProps{
   upvotes: number
   downvotes: number
 }
-const RankerCard = (props: CardProps) => {
+const ObjectCard = (props: CardProps) => {
   return (
     <div>
-
+      
     </div>
   )
 }
+
+
+
+
 
 interface UploadItem{
   name: string

@@ -22,7 +22,7 @@ app.use(express.json())
 console.log("env test", process.env)
 console.log("env test FUCK", process.env.FUCK)
 console.log("env mongo pass test", process.env.MONGODB_PASSWORD)
-const uri = "mongodb+srv://best-things-server:" + "EuMw7KXsWjzlojpw" + "@cluster0.dewpn.mongodb.net/bestThingsDB?retryWrites=true&w=majority"
+const uri = "mongodb+srv://best-things-server:" + process.env.MONGODB_PASSWORD + "@cluster0.dewpn.mongodb.net/bestThingsDB?retryWrites=true&w=majority"
 const mongoClient = new MongoClient(uri)
 mongoClient.connect()
 const db = mongoClient.db("bestThingsDB")
@@ -34,21 +34,31 @@ app.get('/test', (req, res) => {
   res.send('Hello World!')
 })
 
-app.get("/get_next_item", (req, res) =>{
-    console.log("got /get_next_item")
-})
 
-app.get("/get_new_items", (req, res) => {
-  if (req.body.category === "none"){
-
-  }
+app.get("/get_new_objects", (req, res) => {
+    console.log("got to /get_new_objects")
+    console.log(req.headers.quantity)
+    var quantity = req.headers.quantity
+    console.log(req.headers.category)
+    var category = req.headers.category
+    objectsCollection.find({"categories": category}).toArray()
+    .then((results)=>{
+      var objectsArray = results
+      var finalArray = []
+      var x = 0;
+      while (x<quantity){
+        finalArray.push(JSON.stringify(objectsArray[x]))
+        x++
+      }
+      res.status(200).json(finalArray)
+    })
+    .catch((error)=>{
+      res.status(500).send(error)
+    })
 })
 
 app.post("/enter_new_object", (req, res) => {
   console.log("got to /enter_new_object")
-
-  console.log(req.body)
-  console.log(req.headers)
 
   objectsCollection.insertOne(req.body).then((result)=>{
     console.log("successfully inserted object to mongodb")
