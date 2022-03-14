@@ -44,11 +44,12 @@ app.post("/enter_new_item", (req, res) => {
 app.post("/upload_image", (req, res)=>{
   console.log("got /upload_image")
 
+  console.log("process test", process, process.env)
   console.log("file test", req.files.file)
   console.log("awsBucketName", awsBucketName)
     s3.putObject({
       Bucket: awsBucketName,
-      Body: req.files.file,
+      Body: req.files.file.data,
       Key: req.files.file.name
     }).promise().then((result) => {
       res.send(result)
