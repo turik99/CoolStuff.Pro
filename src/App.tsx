@@ -110,8 +110,8 @@ const ObjectCard = (props: CardProps) => {
       console.log("failed upvoting", error)
     })
   }
-  }
 }
+
 
 
 
