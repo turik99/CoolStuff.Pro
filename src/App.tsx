@@ -51,16 +51,18 @@ interface ObjectType{
 
 const ObjectWindow = (props: ObjectWindowProps) =>{
   var objectsArray: ObjectType[] = []
+  var objCard = <></>
+  
+
   axios.get<ObjectType[]>("/get_new_objects", {headers: {"quantity": props.numberOfItems, "category": props.category}})
   .then((result)=>{
     console.log("result form get new objs", result)
     objectsArray = result.data
+    var obj:ObjectType = objectsArray[0]
+    objCard = <ObjectCard id={obj.id} name={obj.name} description={obj.description} 
+     imageUrl={obj.imageUrl} categories={obj.categories} upvotes={obj.upvotes} downvotes={obj.downvotes} />
   })
 
-  console.log("objects array test", objectsArray)
-  var obj:ObjectType = objectsArray[0]
-  var objCard = <ObjectCard id={obj.id} name={obj.name} description={obj.description} 
-   imageUrl={obj.imageUrl} categories={obj.categories} upvotes={obj.upvotes} downvotes={obj.downvotes} />
 
   return(
     <div style={{width: "288pt", height: "432pt", backgroundColor: "grey"}}>
