@@ -45,7 +45,7 @@ app.post("/upload_image", (req, res)=>{
   console.log("got /upload_image")
 
   console.log("file test", req.files.file)
-  
+  console.log("awsBucketName", awsBucketName)
     s3.putObject({
       Bucket: awsBucketName,
       Body: req.files.file,
