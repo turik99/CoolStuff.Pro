@@ -20,7 +20,8 @@ const s3 = new S3({
 app.use(upload())
 app.use(express.json())
 console.log("env test", process.env)
-console.log("mongo test", process.env.MONGODB_PASSWORD)
+console.log("env test FUCK", process.env.FUCK)
+console.log("env mongo pass test", process.env.MONGODB_PASSWORD)
 const uri = "mongodb+srv://best-things-server:" + "EuMw7KXsWjzlojpw" + "@cluster0.dewpn.mongodb.net/bestThingsDB?retryWrites=true&w=majority"
 const mongoClient = new MongoClient(uri)
 mongoClient.connect()
@@ -51,7 +52,7 @@ app.post("/enter_new_object", (req, res) => {
 
   objectsCollection.insertOne(req.body).then((result)=>{
     console.log("successfully inserted object to mongodb")
-    res.send("successfully inserted", result)
+    res.status("200").send("successful insertion")
   })
   .catch((error)=>{
     console.log("failure to insert to db", error )
