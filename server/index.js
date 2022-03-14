@@ -21,7 +21,8 @@ const s3 = new S3({
 app.use(upload())
 
 
-const uri = "mongodb+srv://best-things-server:<" + process.env.MONGODB_PASSWORD + ">@cluster0.dewpn.mongodb.net/bestThingsDB?retryWrites=true&w=majority"
+console.log("mongo test", process.env.MONGODB_PASSWORD)
+const uri = "mongodb+srv://best-things-server:" + process.env.MONGODB_PASSWORD + "@cluster0.dewpn.mongodb.net/bestThingsDB?retryWrites=true&w=majority"
 const mongoClient = new MongoClient(uri)
 mongoClient.connect()
 const db = mongoClient.db("bestThingsDB")
