@@ -7,7 +7,6 @@ const axios = require("axios")
 const { S3 } = require("aws-sdk")
 const {MongoClient} = require("mongodb")
 const upload = require("express-fileupload");
-
 const awsBucketName = process.env.AWS_BUCKET_NAME
 const awsRegion = process.env.AWS_BUCKET_REGION
 const awsKey = process.env.AWS_BUCKET_KEY
@@ -20,7 +19,7 @@ const s3 = new S3({
 
 app.use(upload())
 
-
+console.log("env test", process.env)
 console.log("mongo test", process.env.MONGODB_PASSWORD)
 const uri = "mongodb+srv://best-things-server:" + process.env.MONGODB_PASSWORD + "@cluster0.dewpn.mongodb.net/bestThingsDB?retryWrites=true&w=majority"
 const mongoClient = new MongoClient(uri)
