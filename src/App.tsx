@@ -5,7 +5,7 @@ import dislikeImage from "./thumbdown.svg"
 import axios from 'axios';
 import FormData from 'form-data';
 function App() {
-  const [pageContent, setPageContent] = useState("UploadObjectView")
+  const [pageContent, setPageContent] = useState("ObjectWindow")
   var content = {}
 
   if (pageContent === "ObjectWindow"){
@@ -16,6 +16,14 @@ function App() {
   }
   return (
     <div >
+      <button onClick={()=>{
+        if (pageContent === "ObjectWindow"){
+          setPageContent("UploadObjectView")
+        }
+        else{
+          setPageContent("ObjectWindow")
+        }
+      }}></button>
         <div style={{display: "flex", justifyContent: "center"}}>
         {content}
         </div>
