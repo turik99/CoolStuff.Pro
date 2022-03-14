@@ -78,6 +78,7 @@ const UploadObjectView = () => {
 
   var uploadItem: UploadItem = {name: name, description: description, imageUrl: imageUrl, categories: categories, upvotes: 0, downvotes: 0}
 
+  
   return(
     <div>
       <h2>Name</h2>
@@ -112,15 +113,14 @@ const UploadObjectView = () => {
       .catch((error)=>{
         console.log(error)
       })
-
-
   }
-
+  
   function uploadObject(uploadItem: UploadItem){
     if (imageUrl!==""){
       axios.post("/enter_new_object", uploadItem)
       .then((result)=>{
         console.log("result from enter new item", result)
+        
       })
       .catch((error)=>{
         console.log("error from new item", error)
@@ -130,6 +130,9 @@ const UploadObjectView = () => {
       alert("please upload an image first!")
     }
   }
+
+
 }
+
 
 export default App;
