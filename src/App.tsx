@@ -117,7 +117,9 @@ const UploadObjectView = () => {
 
     const uploadData:FormData = new FormData()
     uploadData.append("file", image)
-    axios.post(urlAppend + "/upload_image", uploadData)
+
+    console.log("form data check", uploadData)
+    axios.post(urlAppend + "/upload_image", uploadData, {headers:{ "Content-Type": "multipart/form-data" }})
       .then((response)=>{
         console.log(response)
 
