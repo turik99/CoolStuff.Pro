@@ -116,8 +116,8 @@ const UploadObjectView = () => {
   
   function uploadObject(){
     var uploadItem: UploadItem = {name: name, description: description, imageUrl: imageUrl, categories: categories, upvotes: 0, downvotes: 0}
-    if (imageUrl!==""){
-      axios.post("/enter_new_object", uploadItem)
+    if (imageUrl !== ""){
+      axios.post("/enter_new_object", JSON.stringify(uploadItem) )
       .then((result)=>{
         console.log("result from enter new item", result)
         
