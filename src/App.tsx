@@ -52,10 +52,13 @@ interface ObjectType{
 const ObjectWindow = (props: ObjectWindowProps) =>{
   const [objectsArray, setObjectsArray] = useState<ObjectType[]>([])
 
+  var card = <></>
   if (objectsArray === []){
     axios.get<ObjectType[]>("/get_new_objects", {headers: {"quantity": props.numberOfItems, "category": props.category}})
     .then((result)=>{
       console.log("result form get new objs", result)
+      card = <ObjectCard id={result.data[0].id} name={result.data[0].name} description={result.data[0].description} 
+      imageUrl={result.data[0].imageUrl} categories={result.data[0].categories} upvotes={result.data[0].upvotes} downvotes={result.data[0].downvotes} />
       setObjectsArray(result.data)
     })
   }
@@ -63,8 +66,7 @@ const ObjectWindow = (props: ObjectWindowProps) =>{
   return(
     <div style={{width: "288pt", height: "432pt", backgroundColor: "grey"}}>
       <div style={{ display: "flex", width: "288pt", height: "72pt", justifyContent: "center", marginTop: "360pt"}}>
-      <ObjectCard id={objectsArray[0].id} name={objectsArray[0].name} description={objectsArray[0].description} 
-        imageUrl={objectsArray[0].imageUrl} categories={objectsArray[0].categories} upvotes={objectsArray[0].upvotes} downvotes={objectsArray[0].downvotes} />
+      {card}
       </div>
     </div>)
 }
