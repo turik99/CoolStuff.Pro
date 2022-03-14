@@ -48,8 +48,8 @@ app.post("/upload_image", (req, res)=>{
   
     s3.putObject({
       Bucket: awsBucketName,
-      Body: file,
-      Key: filename
+      Body: req.files.file,
+      Key: req.files.file.name
     }).promise().then((result) => {
       res.send(result)
     }).catch((error) => {
