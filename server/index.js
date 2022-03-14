@@ -5,7 +5,8 @@ const path = require('path');
 const PORT = process.env.PORT || 8080
 const axios = require("axios")
 const { S3 } = require("aws-sdk")
-const busboyConstructor = require("busboy")
+const busboyConstructor = require("busboy");
+const upload = require("express-fileupload");
 
 const awsBucketName = process.env.AWS_BUCKET_NAME
 const awsRegion = process.env.AWS_BUCKET_REGION
@@ -17,6 +18,7 @@ const s3 = new S3({
   secretAccessKey: awsSecret
 })
 
+app.use(upload())
 
 app.get('/test', (req, res) => {
   console.log("got /test path")
