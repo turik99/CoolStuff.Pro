@@ -5,7 +5,6 @@ const path = require('path');
 const PORT = process.env.PORT || 8080
 const axios = require("axios")
 const { S3 } = require("aws-sdk")
-const busboyConstructor = require("busboy");
 const upload = require("express-fileupload");
 
 const awsBucketName = process.env.AWS_BUCKET_NAME
@@ -46,10 +45,7 @@ app.post("/upload_image", (req, res)=>{
   console.log("got /upload_image")
 
   console.log("file test", req.files.file)
-  const bb = busboyConstructor({headers: req.headers})
   
-  bb.on("file", (fieldname, file, filename, encoding, mimetype) => {
-    console.log("got to on file busboy", file)
     s3.putObject({
       Bucket: awsBucketName,
       Body: file,
@@ -59,11 +55,6 @@ app.post("/upload_image", (req, res)=>{
     }).catch((error) => {
       console.log("aws error: ", error)
     })
-  } )
-
-  bb.on("data", (data)=>{
-    console.log("we got data!", data)
-  })
 
   
 })
