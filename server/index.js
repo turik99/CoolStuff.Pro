@@ -52,8 +52,10 @@ app.post("/upload_image", (req, res)=>{
       Body: req.files.file.data,
       Key: req.files.file.name
     }).promise().then((result) => {
+      console.log("aws success putObject!")
       res.send(result)
     }).catch((error) => {
+      console.log("aws error putObject...")
       console.log("aws error: ", error)
     })
 
