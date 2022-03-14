@@ -76,7 +76,6 @@ const UploadObjectView = () => {
   const [categories, setCategories] = useState([""])
   const [imageUrl, setImageUrl] = useState("")
 
-  var uploadItem: UploadItem = {name: name, description: description, imageUrl: imageUrl, categories: categories, upvotes: 0, downvotes: 0}
 
   
   return(
@@ -93,7 +92,7 @@ const UploadObjectView = () => {
       <h2>Categories</h2>
       <input value={categories}
         onChange={(e) => {setCategories(e.target.value.split(","))}} ></input>
-      <button onClick={()=>{uploadObject(uploadItem)}}>Upload Object</button>
+      <button onClick={()=>{uploadObject()}}>Upload Object</button>
     </div>
   
   )
@@ -115,7 +114,8 @@ const UploadObjectView = () => {
       })
   }
   
-  function uploadObject(uploadItem: UploadItem){
+  function uploadObject(){
+    var uploadItem: UploadItem = {name: name, description: description, imageUrl: imageUrl, categories: categories, upvotes: 0, downvotes: 0}
     if (imageUrl!==""){
       axios.post("/enter_new_object", uploadItem)
       .then((result)=>{
