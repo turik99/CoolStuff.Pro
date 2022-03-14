@@ -34,6 +34,34 @@ app.get('/test', (req, res) => {
   res.send('Hello World!')
 })
 
+app.get("/upvote_object", (req, res)=>{
+  objectsCollection.findOne({id: req.headers.objectID}).then((data)=>{
+    objectsCollection.updateOne({id: req.headers.objectID}, { $set: {upvotes: data.upvotes + 1}}, (err, result)=>{
+      if (err){
+        res.send(err)
+      }
+      else{
+        res.send("successfully upvoted")
+      }
+    })
+  })
+})
+
+
+app.get("/downvote_object", (req, res)=>{
+  
+  objectsCollection.findOne({id: req.headers.objectID}).then((data)=>{
+    objectsCollection.updateOne({id: req.headers.objectID}, { $set: {upvotes: data.downvotes + 1}}, (err, result)=>{
+      if (err){
+        res.send(err)
+      }
+      else{
+        res.send("successfully downvoted")
+      }
+    })
+  })
+})
+
 
 app.get("/get_new_objects", (req, res) => {
     console.log("got to /get_new_objects")
@@ -47,10 +75,10 @@ app.get("/get_new_objects", (req, res) => {
       var finalArray = []
       var x = 0;
       while (x<quantity){
-        finalArray.push(JSON.stringify(objectsArray[x]))
+        finalArray.push(objectsArray[x])
         x++
       }
-      res.status(200).json(finalArray)
+      res.status(200).send(finalArray)
     })
     .catch((error)=>{
       res.status(500).send(error)

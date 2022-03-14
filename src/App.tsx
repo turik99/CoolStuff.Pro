@@ -23,7 +23,7 @@ function App() {
         else{
           setPageContent("ObjectWindow")
         }
-      }}></button>
+      }}>Switch view</button>
         <div style={{display: "flex", justifyContent: "center"}}>
         {content}
         </div>
@@ -57,32 +57,60 @@ const ObjectWindow = (props: ObjectWindowProps) =>{
     objectsArray = result.data
   })
 
-  
+  console.log("objects array test", objectsArray)
+  var obj:ObjectType = objectsArray[0]
+  var objCard = <ObjectCard id={obj.id} name={obj.name} description={obj.description} 
+   imageUrl={obj.imageUrl} categories={obj.categories} upvotes={obj.upvotes} downvotes={obj.downvotes} />
 
   return(
     <div style={{width: "288pt", height: "432pt", backgroundColor: "grey"}}>
       <div style={{ display: "flex", width: "288pt", height: "72pt", justifyContent: "center", marginTop: "360pt"}}>
-
-        <img style={{backgroundImage: `url(${likeImage}`, 
-        backgroundRepeat: "no-repeat", backgroundSize: "cover", width: "48pt", height: "48pt"}} />
-        <img style={{backgroundImage: `url(${dislikeImage}`,
-        backgroundRepeat: "no-repeat", backgroundSize: "cover", width: "48pt", height: "48pt"}} />
+      {objCard}
       </div>
     </div>)
 }
 
 interface CardProps{
-  image: string
-  category: string
+  id: string
+  name: string
+  description: string
+  imageUrl: string
+  categories: string[]
   upvotes: number
   downvotes: number
 }
 const ObjectCard = (props: CardProps) => {
   return (
-    <div>
-      
+    <div style={{width: "288pt", height: "432pt"}}>
+      <h2>{props.name}</h2>
+      <img style={{width:"288pt"}} src={props.imageUrl}></img>
+      <img onClick={()=>{upvoteObject(props.id)} }  style={{backgroundImage: `url(${likeImage}`, 
+        backgroundRepeat: "no-repeat", backgroundSize: "cover", width: "48pt", height: "48pt"}} />
+      <img onClick={()=>{downvoteObject(props.id)} }  style={{backgroundImage: `url(${dislikeImage}`,
+      backgroundRepeat: "no-repeat", backgroundSize: "cover", width: "48pt", height: "48pt"}} />
+
     </div>
   )
+
+  function upvoteObject(id: string){
+    axios.get("/upvote_object", {headers: {objectID: id}})
+    .then((result)=>{
+      console.log("success upvoted", result)
+    })
+    .catch((error)=>{
+      console.log("failed upvoting", error)
+    })
+  }
+  function downvoteObject(id: string){
+    axios.get("/downvote_object", {headers: {objectID: id}})
+    .then((result)=>{
+      console.log("success upvoted", result)
+    })
+    .catch((error)=>{
+      console.log("failed upvoting", error)
+    })
+  }
+  }
 }
 
 
@@ -97,11 +125,6 @@ interface UploadItem{
   upvotes: number
   downvotes: number
 }
-
-
-
-
-
 
 
 const UploadObjectView = () => {
