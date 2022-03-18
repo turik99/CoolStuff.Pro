@@ -68,7 +68,7 @@ const ObjectWindow = (props: ObjectWindowProps) =>{
   useEffect(()=>{
     axios.get<ObjectType[]>("/get_new_objects", {headers: {"quantity": props.numberOfItems, "category": props.category}})
     .then((result)=>{
-      console.log("result form get new objs", result)
+      console.log("result from get new objs", result)
       setObjectsArray(result.data)
     })
   }, [])

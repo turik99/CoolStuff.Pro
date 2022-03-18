@@ -77,6 +77,7 @@ app.get("/get_new_objects", (req, res) => {
         finalArray.push(objectsArray[x])
         x++
       }
+      console.log("data from mongo", results)
       res.status(200).send(finalArray)
     })
     .catch((error)=>{
