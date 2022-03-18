@@ -66,9 +66,9 @@ app.get("/get_new_objects", (req, res) => {
     console.log("got to /get_new_objects")
     console.log(req.headers.quantity)
     var quantity = req.headers.quantity
-    console.log(req.headers.category)
-    var category = req.headers.category
-    objectsCollection.find({"categories": category}).toArray()
+    console.log(req.headers.categories)
+    var categories = req.headers.categories
+    objectsCollection.find( { categories: { $in: {categories} } } ).toArray()
     .then((results)=>{
       var objectsArray = results
       var finalArray = []

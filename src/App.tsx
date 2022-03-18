@@ -9,7 +9,7 @@ function App() {
   var content = {}
 
   if (pageContent === "ObjectWindow"){
-    content = <ObjectWindow numberOfItems={4} category="" />
+    content = <ObjectWindow numberOfItems={4} categories={[""]} />
   }
   if (pageContent === "UploadObjectView"){
     content = <UploadObjectView />
@@ -42,7 +42,7 @@ function App() {
 
 interface ObjectWindowProps{
   numberOfItems: number
-  category: string
+  categories: string[]
 }
 
 interface ObjectType{
@@ -66,7 +66,7 @@ const ObjectWindow = (props: ObjectWindowProps) =>{
   
 
   useEffect(()=>{
-    axios.get<ObjectType[]>("/get_new_objects", {headers: {"quantity": props.numberOfItems, "category": props.category}})
+    axios.get<ObjectType[]>("/get_new_objects", {headers: {"quantity": props.numberOfItems, "categories": props.categories[0]}})
     .then((result)=>{
       console.log("result from get new objs", result)
       setObjectsArray(result.data)
