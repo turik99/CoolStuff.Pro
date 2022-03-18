@@ -28,7 +28,6 @@ mongoClient.connect()
 const db = mongoClient.db("bestThingsDB")
 const objectsCollection = db.collection("objects")
 
-
 app.get('/test', (req, res) => {
   console.log("got /test path")
   res.send('Hello World!')
@@ -51,7 +50,7 @@ app.get("/upvote_object", (req, res)=>{
 app.get("/downvote_object", (req, res)=>{
   
   objectsCollection.findOne({id: req.headers.objectID}).then((data)=>{
-    objectsCollection.updateOne({id: req.headers.objectID}, { $set: {upvotes: data.downvotes + 1}}, (err, result)=>{
+    objectsCollection.updateOne({id: req.headers.objectID}, { $set: {downvotes: data.downvotes + 1}}, (err, result)=>{
       if (err){
         res.send(err)
       }

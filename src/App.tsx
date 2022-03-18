@@ -9,13 +9,21 @@ function App() {
   var content = {}
 
   if (pageContent === "ObjectWindow"){
-    content = <ObjectWindow numberOfItems={2} category="car" />
+    content = <ObjectWindow numberOfItems={4} category="" />
   }
   if (pageContent === "UploadObjectView"){
     content = <UploadObjectView />
   }
   return (
-    <div >
+    <div style={{background: "#1C3FFF", height: "100vh"}}>
+      <div style={{display:"flex", justifyContent: "center"}}>
+        <h1 style={{color:"white", marginBottom: 0, fontFamily: "Futura", fontStyle: "italic"}}>BasedDepartment.xyz</h1>
+      </div>
+
+
+      <div>
+
+      </div>
       <button onClick={()=>{
         if (pageContent === "ObjectWindow"){
           setPageContent("UploadObjectView")
@@ -67,10 +75,10 @@ const ObjectWindow = (props: ObjectWindowProps) =>{
 
   return(
     <div style={{width: "288pt", height: "432pt", backgroundColor: "grey"}}>
-      <div style={{ display: "flex", width: "288pt", height: "72pt", justifyContent: "center", marginTop: "360pt"}}>
-      <ObjectCard id={objectsArray[0].id} name={objectsArray[0].name} description={objectsArray[0].description} 
-      imageUrl={objectsArray[0].imageUrl} categories={objectsArray[0].categories} upvotes={objectsArray[0].upvotes} 
-      downvotes={objectsArray[0].downvotes} />
+      <div style={{ display: "flex", width: "288pt", height: "72pt", justifyContent: "center"}}>
+        <ObjectCard id={objectsArray[0].id} name={objectsArray[0].name} description={objectsArray[0].description} 
+        imageUrl={objectsArray[0].imageUrl} categories={objectsArray[0].categories} upvotes={objectsArray[0].upvotes} 
+        downvotes={objectsArray[0].downvotes} />
       </div>
     </div>)
 }
@@ -89,10 +97,12 @@ const ObjectCard = (props: CardProps) => {
     <div style={{width: "288pt", height: "432pt"}}>
       <h2>{props.name}</h2>
       <img style={{width:"288pt"}} src={props.imageUrl}></img>
-      <img onClick={()=>{upvoteObject(props.id)} }  style={{backgroundImage: `url(${likeImage}`, 
-        backgroundRepeat: "no-repeat", backgroundSize: "cover", width: "48pt", height: "48pt"}} />
-      <img onClick={()=>{downvoteObject(props.id)} }  style={{backgroundImage: `url(${dislikeImage}`,
-      backgroundRepeat: "no-repeat", backgroundSize: "cover", width: "48pt", height: "48pt"}} />
+      <div style={{display:"flex", justifyContent: "center", marginTop: "324pt"}}>
+        <img onClick={()=>{upvoteObject(props.id)} }  style={{backgroundImage: `url(${likeImage}`, 
+          backgroundRepeat: "no-repeat", backgroundSize: "cover", width: "48pt", height: "48pt"}} />
+        <img onClick={()=>{downvoteObject(props.id)} }  style={{backgroundImage: `url(${dislikeImage}`,
+        backgroundRepeat: "no-repeat", backgroundSize: "cover", marginLeft: "24pt", width: "48pt", height: "48pt"}} />
+      </div>
 
     </div>
   )
@@ -116,6 +126,8 @@ const ObjectCard = (props: CardProps) => {
     })
   }
 }
+
+
 
 
 
