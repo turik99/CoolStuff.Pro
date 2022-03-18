@@ -167,9 +167,7 @@ const UploadObjectView = () => {
       <input value={categories}
         onChange={(e) => {setCategories(e.target.value.split(","))}} ></input>
       <button onClick={()=>{uploadObject()}}>Upload Object</button>
-    </div>
-  
-  )
+    </div>)
 
   function uploadImageToS3(image: File){
     console.log("file in upload check", image)
