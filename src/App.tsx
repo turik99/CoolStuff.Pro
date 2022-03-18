@@ -59,7 +59,7 @@ interface ObjectType{
 
 const ObjectWindow = (props: ObjectWindowProps) =>{
   const [objectsArray, setObjectsArray] = useState<ObjectType[]>(()=>{
-    var obj:ObjectType = {id: "", name: "", description: "", imageUrl: "", categories: [], upvotes: 0, downvotes: 0}
+    var obj:ObjectType = {id: "", name: "", description: "", imageUrl: "", categories: [""], upvotes: 0, downvotes: 0}
     var array:ObjectType[] = [obj]
     return array
   })
@@ -92,6 +92,8 @@ interface CardProps{
   upvotes: number
   downvotes: number
 }
+
+
 const ObjectCard = (props: CardProps) => {
   return (
     <div style={{width: "288pt", height: "432pt"}}>
@@ -171,7 +173,6 @@ const UploadObjectView = () => {
 
   function uploadImageToS3(image: File){
     console.log("file in upload check", image)
-
     const uploadData:FormData = new FormData()
     uploadData.append("file", image)
     const awsURL = "https://big-bucket-of-objects.s3.us-west-1.amazonaws.com/"
