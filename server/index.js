@@ -68,6 +68,7 @@ app.get("/get_new_objects", (req, res) => {
     var quantity = req.headers.quantity
     console.log(req.headers.categories)
     var categories = req.headers.categories
+    console.log("categories header value", categories)
     objectsCollection.find( { categories: { $in: {categories} } } ).toArray()
     .then((results)=>{
       var objectsArray = results
