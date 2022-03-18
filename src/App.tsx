@@ -73,6 +73,8 @@ const ObjectWindow = (props: ObjectWindowProps) =>{
     })
   }, [])
 
+  console.log("objects test", objectsArray)
+
   return(
     <div style={{width: "288pt", height: "432pt", backgroundColor: "grey"}}>
       <div style={{ display: "flex", width: "288pt", height: "72pt", justifyContent: "center"}}>
