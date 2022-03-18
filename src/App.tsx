@@ -9,7 +9,7 @@ function App() {
   var content = {}
 
   if (pageContent === "ObjectWindow"){
-    content = <ObjectWindow numberOfItems={4} categories={[""]} />
+    content = <ObjectWindow numberOfItems={4} categories={["cars"]} />
   }
   if (pageContent === "UploadObjectView"){
     content = <UploadObjectView />

@@ -64,12 +64,13 @@ app.get("/downvote_object", (req, res)=>{
 
 app.get("/get_new_objects", (req, res) => {
     console.log("got to /get_new_objects")
-    console.log(req.headers.quantity)
+    console.log(req.headers)
     var quantity = req.headers.quantity
     console.log(req.headers.categories)
     var categories = req.headers.categories
     console.log("categories header value", categories)
-    objectsCollection.find( { categories: { $in: {categories} } } ).toArray()
+
+    objectsCollection.find( { categories: "car" } ).toArray()
     .then((results)=>{
       var objectsArray = results
       var finalArray = []
