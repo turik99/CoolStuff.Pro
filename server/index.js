@@ -20,7 +20,6 @@ const s3 = new S3({
 app.use(upload())
 app.use(express.json())
 console.log("env test", process.env)
-console.log("env test FUCK", process.env.FUCK)
 console.log("env mongo pass test", process.env.MONGODB_PASSWORD)
 const uri = "mongodb+srv://best-things-server:" + process.env.MONGODB_PASSWORD +
  "@cluster0.dewpn.mongodb.net/bestThingsDB?retryWrites=true&w=majority"
@@ -73,8 +72,15 @@ app.get("/get_new_objects", (req, res) => {
     console.log(req.headers.categories)
     var categories = req.headers.categories
     console.log("categories header value", categories)
+    var category = "cars"
+    if (typeof categories === "string"){
+      category = categories
+    }
+    else{
+      category = categories[0]
+    }
 
-    objectsCollection.find( { categories: categories[0].replace(" ", "") } ).toArray()
+    objectsCollection.find( { categories: category.replace(" ", "") } ).toArray()
     .then((results)=>{
       var objectsArray = results
       var finalArray = []
@@ -98,7 +104,7 @@ app.get("/get_top_objects", (req, res) => {
   console.log(req.headers.categories)
   var categories = req.headers.categories
   var category = "cars"
-  if (typeof categories === string){
+  if (typeof categories=== "string"){
     category = categories
   }
   else{
