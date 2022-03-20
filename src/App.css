@@ -3,6 +3,24 @@
   text-align: center;
 }
 
+.item_style{
+  display: flex;
+  flex-direction: column; 
+  width: 144pt;
+  height: 144pt;
+  margin: 15pt;
+}
+.item_style:hover{
+  cursor: pointer;
+  display: flex;
+  flex-direction: column; 
+  width: 144pt;
+  height: 144pt;
+  margin: 15pt;
+  /* box-shadow: 0 0 0 3px white; */
+
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

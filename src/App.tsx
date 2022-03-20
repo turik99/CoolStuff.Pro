@@ -1,139 +1,38 @@
 import React, { useState, useEffect} from 'react';
+import GridLayout from './GridLayout';
 import './App.css';
 import likeImage from "./thumbup.svg"
 import dislikeImage from "./thumbdown.svg"
 import axios from 'axios';
 import FormData from 'form-data';
+import Home from "./Home"
+import Item from './Item';
+import {BrowserRouter, Route, Routes, Router, Link} from "react-router-dom"
+
 function App() {
-  const [pageContent, setPageContent] = useState("ObjectWindow")
-  var content = {}
-
-  if (pageContent === "ObjectWindow"){
-    content = <ObjectWindow numberOfItems={4} categories={["cars"]} />
-  }
-  if (pageContent === "UploadObjectView"){
-    content = <UploadObjectView />
-  }
   return (
+  
+    <BrowserRouter  >
     <div style={{background: "#1C3FFF", height: "100vh"}}>
-      <div style={{display:"flex", justifyContent: "center"}}>
-        <h1 style={{color:"white", marginBottom: 0, fontFamily: "Futura", fontStyle: "italic"}}>BasedDepartment.xyz</h1>
-      </div>
-
-
-      <div>
-
-      </div>
-      <button onClick={()=>{
-        if (pageContent === "ObjectWindow"){
-          setPageContent("UploadObjectView")
-        }
-        else{
-          setPageContent("ObjectWindow")
-        }
-      }}>Switch view</button>
-        <div style={{display: "flex", justifyContent: "center"}}>
-        {content}
+    <Link to="/" style={{textDecoration: "none"}}>
+      <div style={{display:"flex", justifyContent: "center", background: "#1C3FFF", cursor: "pointer"}}>
+          <h1  style={{color:"white", marginBottom: 0, fontFamily: "Futura", fontStyle: "italic"}}>CoolStuff.Pro</h1>
         </div>
+    </Link>
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/items">
+          <Route path=":title" element={<Item />}/>
+        </Route>
+        <Route path="/SubmitItem" element={<UploadObjectView />} />
+      </Routes>
+
     </div>
+    </BrowserRouter>
+    
   );
 }
-
-
-interface ObjectWindowProps{
-  numberOfItems: number
-  categories: string[]
-}
-
-interface ObjectType{
-  id: string
-  name: string
-  description: string
-  imageUrl: string
-  categories: string[]
-  upvotes: number
-  downvotes: number
-
-}
-
-
-const ObjectWindow = (props: ObjectWindowProps) =>{
-  const [objectsArray, setObjectsArray] = useState<ObjectType[]>(()=>{
-    var obj:ObjectType = {id: "", name: "", description: "", imageUrl: "", categories: [""], upvotes: 0, downvotes: 0}
-    var array:ObjectType[] = [obj]
-    return array
-  })
-  
-
-  useEffect(()=>{
-    axios.get<ObjectType[]>("/get_new_objects", {headers: {"quantity": props.numberOfItems, "categories": props.categories[0]}})
-    .then((result)=>{
-      console.log("result from get new objs", result)
-      setObjectsArray(result.data)
-    })
-  }, [])
-
-  console.log("objects test", objectsArray)
-
-  return(
-    <div style={{width: "288pt", height: "432pt", backgroundColor: "grey"}}>
-      <div style={{ display: "flex", width: "288pt", height: "72pt", justifyContent: "center"}}>
-        <ObjectCard id={objectsArray[0].id} name={objectsArray[0].name} description={objectsArray[0].description} 
-        imageUrl={objectsArray[0].imageUrl} categories={objectsArray[0].categories} upvotes={objectsArray[0].upvotes} 
-        downvotes={objectsArray[0].downvotes} />
-      </div>
-    </div>)
-}
-
-interface CardProps{
-  id: string
-  name: string
-  description: string
-  imageUrl: string
-  categories: string[]
-  upvotes: number
-  downvotes: number
-}
-
-
-const ObjectCard = (props: CardProps) => {
-  return (
-    <div style={{width: "288pt", height: "432pt"}}>
-      <h2>{props.name}</h2>
-      <img style={{width:"288pt"}} src={props.imageUrl}></img>
-      <div style={{display:"flex", justifyContent: "center", marginTop: "324pt"}}>
-        <img onClick={()=>{upvoteObject(props.id)} }  style={{backgroundImage: `url(${likeImage}`, 
-          backgroundRepeat: "no-repeat", backgroundSize: "cover", width: "48pt", height: "48pt"}} />
-        <img onClick={()=>{downvoteObject(props.id)} }  style={{backgroundImage: `url(${dislikeImage}`,
-        backgroundRepeat: "no-repeat", backgroundSize: "cover", marginLeft: "24pt", width: "48pt", height: "48pt"}} />
-      </div>
-
-    </div>
-  )
-
-  function upvoteObject(id: string){
-    axios.get("/upvote_object", {headers: {objectID: id}})
-    .then((result)=>{
-      console.log("success upvoted", result)
-    })
-    .catch((error)=>{
-      console.log("failed upvoting", error)
-    })
-  }
-  function downvoteObject(id: string){
-    axios.get("/downvote_object", {headers: {objectID: id}})
-    .then((result)=>{
-      console.log("success upvoted", result)
-    })
-    .catch((error)=>{
-      console.log("failed upvoting", error)
-    })
-  }
-}
-
-
-
-
 
 
 
@@ -153,11 +52,7 @@ const UploadObjectView = () => {
   const [description, setDescription] = useState("")
   const [categories, setCategories] = useState([""])
   const [imageUrl, setImageUrl] = useState("")
-
-
-  
-  return(
-    <div>
+  return(<div>
       <h2>Name</h2>
       <input type="text"
         value={name}
@@ -188,7 +83,6 @@ const UploadObjectView = () => {
         console.log(error)
       })
   }
-  
   function uploadObject(){
     var uploadItem: UploadItem = {name: name, description: description, imageUrl: imageUrl, categories: categories, upvotes: 0, downvotes: 0}
     if (imageUrl !== ""){

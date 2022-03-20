@@ -70,7 +70,7 @@ app.get("/get_new_objects", (req, res) => {
     var categories = req.headers.categories
     console.log("categories header value", categories)
 
-    objectsCollection.find( { categories: "car" } ).toArray()
+    objectsCollection.find( { categories: categories[0] } ).toArray()
     .then((results)=>{
       var objectsArray = results
       var finalArray = []
