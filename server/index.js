@@ -40,36 +40,32 @@ app.get('/test', (req, res) => {
 })
 
 app.put("/upvote_object", (req, res)=>{
-  console.log("got to upvote obj", req.headers)
-  objectsCollection.findOne({_id: req.headers._id}).then((data)=>{
-    objectsCollection.updateOne({_id: req.headers._id}, { $set: {upvotes: data.upvotes + 1}}, (err, result)=>{
-      if (err){
-        res.send(err)
-      }
-      else{
-        console.log("successful upvote")
-
-        res.status(200).send("successfully upvoted")
-      }
+  console.log("got to downvote obj", req.headers._id)
+  objectsCollection.updateOne(
+    {_id: req.headers._id},
+    { $inc: { upvotes: 1 } }
+    )
+    .then((response)=>{
+      res.status(200).send("successful downvote")
     })
-  })
+    .catch((error)=>{
+      res.status(500).send(error)
+    })
 })
 
 
 app.put("/downvote_object", (req, res)=>{
-  console.log("got to downvote obj", req.headers)
-  objectsCollection.findOne({_id: req.headers._id}).then((data)=>{
-    objectsCollection.updateOne({_id: req.headers._id}, { $set: {downvotes: data.downvotes + 1}}, (err, result)=>{
-      if (err){
-        res.send(err)
-      }
-      else{
-        console.log("successful downvote")
-
-        res.send("successfully downvoted")
-      }
+  console.log("got to downvote obj", req.headers._id)
+  objectsCollection.updateOne(
+    {_id: req.headers._id},
+    { $inc: { downvotes: 1 } }
+    )
+    .then((response)=>{
+      res.status(200).send("successful downvote")
     })
-  })
+    .catch((error)=>{
+      res.status(500).send(error)
+    })
 })
 
 
