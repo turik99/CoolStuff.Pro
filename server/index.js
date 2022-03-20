@@ -41,8 +41,8 @@ app.get('/test', (req, res) => {
 
 app.put("/upvote_object", (req, res)=>{
   console.log("got to upvote obj", req.headers)
-  objectsCollection.findOne({id: req.headers.objectID}).then((data)=>{
-    objectsCollection.updateOne({id: req.headers.objectID}, { $set: {upvotes: data.upvotes + 1}}, (err, result)=>{
+  objectsCollection.findOne({_id: req.headers._id}).then((data)=>{
+    objectsCollection.updateOne({_id: req.headers._id}, { $set: {upvotes: data.upvotes + 1}}, (err, result)=>{
       if (err){
         res.send(err)
       }
@@ -58,8 +58,8 @@ app.put("/upvote_object", (req, res)=>{
 
 app.put("/downvote_object", (req, res)=>{
   console.log("got to downvote obj", req.headers)
-  objectsCollection.findOne({id: req.headers.objectID}).then((data)=>{
-    objectsCollection.updateOne({id: req.headers.objectID}, { $set: {downvotes: data.downvotes + 1}}, (err, result)=>{
+  objectsCollection.findOne({_id: req.headers._id}).then((data)=>{
+    objectsCollection.updateOne({_id: req.headers._id}, { $set: {downvotes: data.downvotes + 1}}, (err, result)=>{
       if (err){
         res.send(err)
       }
