@@ -130,11 +130,12 @@ const ResultItem = (props: ResultItemProps) => {
     var totalVotes: number = props.item.upvotes + props.item.downvotes
     var upvoteShare: number = props.item.upvotes/totalVotes
     const FullBarWidthInPts:number = 432;
-    const barWidth:string = (upvoteShare * FullBarWidthInPts) + "pt"
+    const barWidth:string = (upvoteShare * FullBarWidthInPts).toString().concat("pt")
+    console.log("bar width test", barWidth)
     return(
     <div style={{display: "flex", flexDirection: "row"}}>
-        <h3 style={{fontFamily: "Futura"}}>{props.item.name}</h3>
-        <div style={{width: barWidth, height: "12pt", background: "white"}}></div>
+        <h3 style={{fontFamily: "Futura", color: "white"}}>{props.item.name}</h3>
+        <div style={{width: barWidth, height: "18pt", background: "white"}}></div>
     </div>)
 }
 
@@ -146,7 +147,7 @@ const ResultsPage = (props: ResultsPageProps) => {
         x++
     }
     return (
-        <div style={{ display: "flex", background: "#1C3FFF", justifyContent: "left", marginLeft: "72pt" }}>
+        <div style={{ display: "flex", background: "#1C3FFF", justifyContent: "left", marginLeft: "72pt", flexDirection: "column" }}>
         {viewArray}
     </div>)
 }
