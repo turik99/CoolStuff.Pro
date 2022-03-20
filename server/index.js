@@ -99,7 +99,7 @@ app.get("/get_top_objects", (req, res) => {
   var categories = req.headers.categories
   console.log("categories header value", categories)
 
-  objectsCollection.find( { categories: categories[0] } ).toArray()
+  objectsCollection.find( { categories: "cars" } ).toArray()
   .then((results)=>{
     var objectsArray = results
     var finalArray = []
