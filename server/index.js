@@ -11,7 +11,7 @@ const awsBucketName = process.env.AWS_BUCKET_NAME
 const awsRegion = process.env.AWS_BUCKET_REGION
 const awsKey = process.env.AWS_BUCKET_KEY
 const awsSecret = process.env.AWS_SECRET_KEY 
-const ObjectID = require('mongodb').ObjectId;
+const ObjectId = require('mongodb').ObjectId;
 
 const s3 = new S3({
   region: awsRegion, 
