@@ -8,8 +8,8 @@ function Item() {
     const params = useParams();
     const title = params.title as string
     console.log("data test", title)
-    const [currentObject, setCurrentObject] = useState(0)
-
+    var currentObject: number = 0
+    
     const ObjectWindow = (props: ObjectWindowProps) => {
         const [objectsArray, setObjectsArray] = useState<ObjectType[]>(() => {
             var obj: ObjectType = { id: "_", name: "_", description: "_", imageUrl: "_", categories: ["_"], upvotes: 0, downvotes: 0 }
@@ -49,22 +49,20 @@ function Item() {
             axios.get("/upvote_object", { headers: { objectID: id } })
                 .then((result) => {
                     console.log("success upvoted", result)
-                    setCurrentObject(currentObject + 1)
+                    currentObject++
                 })
                 .catch((error) => {
                     console.log("failed upvoting", error)
-                    setCurrentObject(currentObject + 1)
                 })
         }
         function downvoteObject(id: string) {
             axios.get("/downvote_object", { headers: { objectID: id } })
                 .then((result) => {
                     console.log("success upvoted", result)
-                    setCurrentObject(currentObject + 1)
+                    currentObject++
                 })
                 .catch((error) => {
                     console.log("failed upvoting", error)
-                    setCurrentObject(currentObject + 1)
 
                 })
         }
@@ -75,7 +73,10 @@ function Item() {
         return (
             <div style={{ width: "288pt", height: "396pt" }}>
                 <h2>{props.name}</h2>
-                <img style={{ width: "288pt", height: "288pt", border: "none" }} src={props.imageUrl} ></img>
+                <div style={{width:"288pt", height: "288pt"}}>
+                    <img style={{ width: "288pt", height: "auto", border: "none" }} src={props.imageUrl} ></img>
+
+                </div>
             </div>
         )
 
