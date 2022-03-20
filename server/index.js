@@ -17,6 +17,12 @@ const s3 = new S3({
   secretAccessKey: awsSecret
 })
 
+
+function allAreNull(arr) {
+  return arr.every(element => element === null);
+}
+
+
 app.use(upload())
 app.use(express.json())
 console.log("env test", process.env)
@@ -74,13 +80,13 @@ app.get("/get_new_objects", (req, res) => {
     console.log("categories header value", categories)
     var category = "cars"
     if (typeof categories === "string"){
-      category = categories
+      category = categories.toLowerCase().replace(" ", "")
     }
     else{
-      category = categories[0]
+      category = categories[0].toLowerCase().replace(" ", "")
     }
 
-    objectsCollection.find( { categories: category.replace(" ", "") } ).toArray()
+    objectsCollection.find( { categories: category } ).toArray()
     .then((results)=>{
       var objectsArray = results
       var finalArray = []
@@ -89,8 +95,14 @@ app.get("/get_new_objects", (req, res) => {
         finalArray.push(objectsArray[x])
         x++
       }
-      console.log("data from mongo", results)
-      res.status(200).send(finalArray)
+      
+      if (!allAreNull(finalArray)){
+        console.log("data from mongo", results)
+        res.status(200).send(finalArray)  
+      }
+      else{
+        res.status(500).send("array was null")
+      }
     })
     .catch((error)=>{
       res.status(500).send(error)
@@ -104,15 +116,14 @@ app.get("/get_top_objects", (req, res) => {
   console.log(req.headers.categories)
   var categories = req.headers.categories
   var category = "cars"
-  if (typeof categories=== "string"){
-    category = categories
+  if (typeof categories === "string"){
+    category = categories.toLowerCase().replace(" ", "")
   }
   else{
-    category = categories[0]
+    category = categories[0].toLowerCase().replace(" ", "")
   }
-  console.log("categories header value", categories)
-
-  objectsCollection.find( { categories: category.replace(" ", "") } ).toArray()
+  
+  objectsCollection.find( { categories: category } ).toArray()
   .then((results)=>{
     var objectsArray = results
     var finalArray = []
@@ -121,9 +132,11 @@ app.get("/get_top_objects", (req, res) => {
       finalArray.push(objectsArray[x])
       x++
     }
-    console.log("data from mongo", results)
-    res.status(200).send(finalArray)
-  })
+    if (!allAreNull(finalArray)){
+      console.log("data from mongo", results)
+      res.status(200).send(finalArray)  
+    }
+})
   .catch((error)=>{
     res.status(500).send(error)
   })
