@@ -16,7 +16,7 @@ function Item() {
 
     const [items, setItems] = useState(()=>{
         var array:ObjectType[] = []
-        array.push({id: "", name: "", description: "", imageUrl: "", categories: [""], upvotes: 0, downvotes: 0})
+        array.push({_id: "", name: "", description: "", imageUrl: "", categories: [""], upvotes: 0, downvotes: 0})
         return array
     })
     useEffect(()=>{
@@ -48,8 +48,8 @@ function Item() {
                 <h2 style={{color: "white", fontFamily: "Futura"}}>{props.items[currentItem].name}</h2>
                 <img src={props.items[currentItem].imageUrl} style={{width: "288pt", height: "auto"}}></img>
                 <div style={{display: "flex", justifyContent: "center", marginTop: "auto", marginBottom: "12pt"}}>
-                    <img style={{width: "48pt"}} onClick={ ()=>{ upvote(props.items[currentItem].id) } } src={likeImage}></img>
-                    <img style={{width: "48pt", marginLeft: "12pt"}} onClick={ ()=>{ downvote( props.items[currentItem].id ) } } src={dislikeImage}></img>
+                    <img style={{width: "48pt"}} onClick={ ()=>{ upvote(props.items[currentItem]._id) } } src={likeImage}></img>
+                    <img style={{width: "48pt", marginLeft: "12pt"}} onClick={ ()=>{ downvote( props.items[currentItem]._id ) } } src={dislikeImage}></img>
                 </div>
             </div>
             </div>
@@ -115,7 +115,7 @@ interface ItemCardViewProps{
 }
 
 interface ObjectType {
-    id: string
+    _id: string
     name: string
     description: string
     imageUrl: string
