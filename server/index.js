@@ -74,7 +74,7 @@ app.get("/get_new_objects", (req, res) => {
     var categories = req.headers.categories
     console.log("categories header value", categories)
 
-    objectsCollection.find( { categories: categories[0] } ).toArray()
+    objectsCollection.find( { categories: categories[0].replace(" ", "") } ).toArray()
     .then((results)=>{
       var objectsArray = results
       var finalArray = []
@@ -97,9 +97,16 @@ app.get("/get_top_objects", (req, res) => {
   var quantity = req.headers.quantity
   console.log(req.headers.categories)
   var categories = req.headers.categories
+  var category = "cars"
+  if (typeof categories === string){
+    category = categories
+  }
+  else{
+    category = categories[0]
+  }
   console.log("categories header value", categories)
 
-  objectsCollection.find( { categories: "cars" } ).toArray()
+  objectsCollection.find( { categories: category.replace(" ", "") } ).toArray()
   .then((results)=>{
     var objectsArray = results
     var finalArray = []
