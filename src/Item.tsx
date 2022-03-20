@@ -42,17 +42,20 @@ function Item() {
         const [currentItem, setCurrentItem] = useState(0) 
     
         return(
-            <div style={{width: "288pt", height: "360pt", display: "flex", flexDirection: "column", justifyContent: "center"}}>
+            <div style={{display: "flex", justifyContent: "center"}}>
+                <div style={{width: "288pt", height: "360pt", display: "flex", flexDirection: "column", justifyContent: "center"}}>
                 <h2 style={{color: "white", fontFamily: "Futura"}}>{props.items[currentItem].name}</h2>
                 <img src={props.items[currentItem].imageUrl} style={{width: "288pt", height: "auto"}}></img>
                 <div style={{display: "flex", justifyContent: "center", marginTop: "auto", marginBottom: "12pt"}}>
                     <img style={{width: "48pt"}} onClick={ ()=>{ upvote(props.items[currentItem].id) } } src={likeImage}></img>
                     <img style={{width: "48pt", marginLeft: "12pt"}} onClick={ ()=>{ downvote(props.items[currentItem].id) } } src={dislikeImage}></img>
                 </div>
-            </div>)
+            </div>
+            </div>
+            )
         
         function upvote(id: string){
-            axios.get("/upvote_object", {headers: {objectID: id} })
+            axios.put("/upvote_object", {headers: {objectID: id} })
             .then((res)=>{
                 if (currentItem + 1 === items.length){
                     setVotingFinished(true)
@@ -67,7 +70,7 @@ function Item() {
         }
     
         function downvote(id: string){
-            axios.get("/downvote_object", {headers: {objectID: id} })
+            axios.put("/downvote_object", {headers: {objectID: id} })
             .then((res)=>{
                 if (currentItem + 1 === items.length){
                     setVotingFinished(true)
@@ -84,14 +87,12 @@ function Item() {
     
     }
 
-
-
-
     var windowContent = <ItemCardView items={items}/>
     if (votingFinished){
         windowContent = <ResultsPage items={items} />
     }
-    return(<div style={{display: "flex", justifyContent: 'center'}}>
+    return(
+    <div>
         {windowContent}
     </div>)
 
@@ -127,6 +128,7 @@ interface ResultItemProps{
 
 const ResultItem = (props: ResultItemProps) => {
 
+    console.log("result item props", props)
     var totalVotes: number = props.item.upvotes + props.item.downvotes
     var upvoteShare: number = props.item.upvotes/totalVotes
     const FullBarWidthInPts:number = 432;
@@ -147,7 +149,7 @@ const ResultsPage = (props: ResultsPageProps) => {
         x++
     }
     return (
-        <div style={{ display: "flex", background: "#1C3FFF", justifyContent: "left", marginLeft: "72pt", flexDirection: "column" }}>
+    <div style={{ display: "flex", background: "#1C3FFF", justifyContent: "left", flexDirection: "column", marginLeft: "144pt" }}>
         {viewArray}
     </div>)
 }
