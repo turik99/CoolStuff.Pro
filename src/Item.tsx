@@ -71,7 +71,7 @@ function Item() {
     }
 
 
-    const ObjectCard = (props: CardProps) => {
+    const ObjectCard = (props: ObjectType) => {
         return (
             <div style={{ width: "288pt", height: "396pt" }}>
                 <h2>{props.name}</h2>
@@ -139,17 +139,6 @@ interface ObjectWindowProps {
 }
 
 interface ObjectType {
-    id: string
-    name: string
-    description: string
-    imageUrl: string
-    categories: string[]
-    upvotes: number
-    downvotes: number
-}
-
-
-interface CardProps {
     id: string
     name: string
     description: string
