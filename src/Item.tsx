@@ -8,135 +8,103 @@ function Item() {
     const params = useParams();
     const title = params.title as string
     console.log("data test", title)
-    var currentObject: number = 0
+    const [votingFinished, setVotingFinished] = useState(false)
     
-    const ObjectWindow = (props: ObjectWindowProps) => {
-        const [objectsArray, setObjectsArray] = useState<ObjectType[]>(() => {
-            var obj: ObjectType = { id: "_", name: "_", description: "_", imageUrl: "_", categories: ["_"], upvotes: 0, downvotes: 0 }
-            var array: ObjectType[] = [obj, obj]
-            return array
-        })
+    if (localStorage.getItem(title) !== null){
+        setVotingFinished(true)
+    }
 
-        useEffect(() => {
-            axios.get<ObjectType[]>("/get_new_objects", { headers: { "quantity": props.numberOfItems, "categories": props.categories[0].toLowerCase() } })
-                .then((result) => {
-                    console.log("result from get new objs", result)
-                    setObjectsArray(result.data)
-                })
-        }, [])
-
-        return (
-            <div style={{ display: "flex", width: "288pt", height: "496pt", flexDirection: "column" }}>
-                <div style={{ display: "flex", justifyContent: "center" }}>
-                    <p style={{ color: "white", fontStyle: "condensed", fontFamily: "Futura", margin: 0 }}>vote on a few items to proceed</p>
-                </div>
-                <ObjectCard id={objectsArray[currentObject].id} name={objectsArray[currentObject].name} description={objectsArray[currentObject].description}
-                    imageUrl={objectsArray[currentObject].imageUrl} categories={objectsArray[currentObject].categories}
-                    upvotes={objectsArray[currentObject].upvotes} downvotes={objectsArray[currentObject].downvotes} />
-                <div style={{ display: "flex", justifyContent: "center" }}>
-                    <img src={likeImage} onClick={() => { upvoteObject(objectsArray[currentObject].id) }} style={{
-                        backgroundRepeat: "no-repeat", backgroundSize: "cover", width: "48pt", height: "48pt", cursor: "pointer"
-                    }} />
-                    <img src={dislikeImage} onClick={() => { downvoteObject(objectsArray[currentObject].id) }} style={{
-                        backgroundRepeat: "no-repeat", backgroundSize: "cover", marginLeft: "24pt", width: "48pt", height: "48pt", cursor: "pointer"
-                    }} />
-                </div>
-            </div>
-        )
-
-
-        function upvoteObject(id: string) {
-            axios.get("/upvote_object", { headers: { objectID: id } })
-                .then((result) => {
-                    console.log("success upvoted", result)
-                    currentObject++
-                })
-                .catch((error) => {
-                    console.log("failed upvoting", error)
-                })
+    const [items, setItems] = useState(()=>{
+        var array:ObjectType[] = []
+        array.push({id: "", name: "", description: "", imageUrl: "", categories: [""], upvotes: 0, downvotes: 0})
+        return array
+    })
+    useEffect(()=>{
+        if (votingFinished){
+            axios.get<ObjectType[]>("/get_new_objects", {headers: {quantity: 7, categories: title}})
+            .then((res)=>{
+                setItems(res.data)
+            })
         }
-        function downvoteObject(id: string) {
-            axios.get("/downvote_object", { headers: { objectID: id } })
-                .then((result) => {
-                    console.log("success upvoted", result)
-                    currentObject++
-                })
-                .catch((error) => {
-                    console.log("failed upvoting", error)
-
-                })
+        else{
+            axios.get<ObjectType[]>("/get_top_objects", {headers: {quantity: 10, categories: title}})
+            .then((res)=>{
+                setItems(res.data)
+            })
         }
-    }
+    }, [votingFinished])
 
 
-    const ObjectCard = (props: ObjectType) => {
-        return (
-            <div style={{ width: "288pt", height: "396pt" }}>
-                <h2>{props.name}</h2>
-                <div style={{width:"288pt", height: "288pt"}}>
-                    <img style={{ width: "288pt", height: "auto", border: "none" }} src={props.imageUrl} ></img>
 
+
+
+    const ItemCardView = (props: ItemCardViewProps) => {
+        const [currentItem, setCurrentItem] = useState(0) 
+    
+        return(
+            <div style={{width: "288pt", height: "360pt", display: "flex", flexDirection: "column", justifyContent: "center"}}>
+                <h2 style={{color: "white", fontFamily: "Futura"}}>{props.items[currentItem].name}</h2>
+                <img src={props.items[currentItem].imageUrl} style={{width: "288pt", height: "auto"}}></img>
+                <div style={{display: "flex", justifyContent: "center", marginTop: "auto", marginBottom: "12pt"}}>
+                    <img style={{width: "48pt"}} onClick={ ()=>{ upvote(props.items[currentItem].id) } } src={likeImage}></img>
+                    <img style={{width: "48pt", marginLeft: "12pt"}} onClick={ ()=>{ downvote(props.items[currentItem].id) } } src={dislikeImage}></img>
                 </div>
-            </div>
-        )
-
-    }
-
-    const Results = (props: ResultsProps) => {
-
-        const [resultsArray, setResultsArray] = useState<ObjectType[]>(() => {
-            var obj: ObjectType = { id: "", name: "", description: "", imageUrl: "", categories: [""], upvotes: 0, downvotes: 0 }
-            var array: ObjectType[] = [obj, obj]
-            return array
-        })
-
-        useEffect(() => {
-            axios.get<ObjectType[]>("/get_top_objects", { headers: { "quantity": props.numberOfItems, "categories": props.categories[0].toLowerCase() } })
-                .then((result) => {
-                    console.log("result from get new objs", result)
-                    setResultsArray(result.data)
-                })
-        }, [])
-
-        resultsArray.sort((a, b) => a.upvotes - b.upvotes);
-
-        var title:string = resultsArray[0].name
-        var upvotes:number = resultsArray[0].upvotes
-        var downvotes:number = resultsArray[0].downvotes
-
-        var resultItems = []
-        var x:number = 0;
-        while (x<resultsArray.length){
-            resultItems.push(<ResultItem title={title} upvotes = {upvotes} downvotes = {downvotes} />)
-            x++
+            </div>)
+        
+        function upvote(id: string){
+            axios.get("/upvote_object", {headers: {objectID: id} })
+            .then((res)=>{
+                if (currentItem + 1 === items.length){
+                    setVotingFinished(true)
+                }
+                else{
+                    setCurrentItem(currentItem + 1)
+                }
+            })
+            .catch((error)=>{
+                console.log(error)
+            })
         }
-
-        return (
-        <div>
-
-        </div>)
+    
+        function downvote(id: string){
+            axios.get("/downvote_object", {headers: {objectID: id} })
+            .then((res)=>{
+                if (currentItem + 1 === items.length){
+                    setVotingFinished(true)
+                }
+                else{
+                    setCurrentItem(currentItem + 1)
+                }
+            })
+            .catch((error)=>{
+                console.log(error)
+            })
+    
+        }
+    
     }
 
 
-    var windowContent = <ObjectWindow numberOfItems={10} categories={[title]}/>
-    if ( currentObject > 9){ 
-        windowContent=<Results categories={[title]} numberOfItems={10} />
+
+
+    var windowContent = <ItemCardView items={items}/>
+    if (votingFinished){
+        windowContent = <ResultsPage items={items} />
     }
-
-
-    return (
-        <div style={{ display: "flex", background: "#1C3FFF", justifyContent: "center" }}>
-            {windowContent}
-        </div>)
+    return(<div style={{display: "flex", justifyContent: 'center'}}>
+        {windowContent}
+    </div>)
 
 
 
 
-
+    
 }
-interface ObjectWindowProps {
-    numberOfItems: number
-    categories: string[]
+
+
+
+interface ItemCardViewProps{
+    items: ObjectType[]
 }
 
 interface ObjectType {
@@ -149,27 +117,37 @@ interface ObjectType {
     downvotes: number
 }
 
-interface ResultsProps{
-    categories: string[]
-    numberOfItems: number
+interface ResultsPageProps{
+    items: ObjectType[]
 }
 
 interface ResultItemProps{
-    title: string
-    upvotes: number
-    downvotes: number
+    item: ObjectType
 }
 
 const ResultItem = (props: ResultItemProps) => {
 
-    var totalVotes: number = props.upvotes + props.downvotes
-    var upvoteShare: number = props.upvotes/totalVotes
+    var totalVotes: number = props.item.upvotes + props.item.downvotes
+    var upvoteShare: number = props.item.upvotes/totalVotes
     const FullBarWidthInPts:number = 432;
     const barWidth:string = (upvoteShare * FullBarWidthInPts) + "pt"
     return(
     <div style={{display: "flex", flexDirection: "row"}}>
-        <h3 style={{fontFamily: "Futura"}}>{props.title}</h3>
+        <h3 style={{fontFamily: "Futura"}}>{props.item.name}</h3>
         <div style={{width: barWidth, height: "12pt", background: "white"}}></div>
+    </div>)
+}
+
+const ResultsPage = (props: ResultsPageProps) => {
+    var x:number = 0;
+    var viewArray = []
+    while (x<props.items.length){
+        viewArray.push(<ResultItem item={props.items[x]}/>)
+        x++
+    }
+    return (
+        <div style={{ display: "flex", background: "#1C3FFF", justifyContent: "left", marginLeft: "72pt" }}>
+        {viewArray}
     </div>)
 }
 
