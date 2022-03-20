@@ -55,7 +55,7 @@ function Item() {
             )
         
         function upvote(id: string){
-            axios.put("/upvote_object", {headers: {objectID: id} })
+            axios.put("/upvote_object", {}, {headers: {objectID: id} })
             .then((res)=>{
                 console.log("successful upvote", res.data)
                 if (currentItem + 1 === items.length){
@@ -71,7 +71,7 @@ function Item() {
         }
     
         function downvote(id: string){
-            axios.put("/downvote_object", {headers: {objectID: id} })
+            axios.put("/downvote_object", {}, {headers: {objectID: id} })
             .then((res)=>{
                 console.log("successful downvote", res.data)
                 if (currentItem + 1 === items.length){
