@@ -41,6 +41,7 @@ function Item() {
     const ItemCardView = (props: ItemCardViewProps) => {
         const [currentItem, setCurrentItem] = useState(0) 
     
+        console.log("item props test", props)
         return(
             <div style={{display: "flex", justifyContent: "center"}}>
                 <div style={{width: "288pt", height: "360pt", display: "flex", flexDirection: "column", justifyContent: "center"}}>
@@ -48,13 +49,15 @@ function Item() {
                 <img src={props.items[currentItem].imageUrl} style={{width: "288pt", height: "auto"}}></img>
                 <div style={{display: "flex", justifyContent: "center", marginTop: "auto", marginBottom: "12pt"}}>
                     <img style={{width: "48pt"}} onClick={ ()=>{ upvote(props.items[currentItem].id) } } src={likeImage}></img>
-                    <img style={{width: "48pt", marginLeft: "12pt"}} onClick={ ()=>{ downvote(props.items[currentItem].id) } } src={dislikeImage}></img>
+                    <img style={{width: "48pt", marginLeft: "12pt"}} onClick={ ()=>{ downvote( props.items[currentItem].id ) } } src={dislikeImage}></img>
                 </div>
             </div>
             </div>
             )
         
         function upvote(id: string){
+            console.log("upvote id test", id)
+
             axios.put("/upvote_object", {}, {headers: {objectID: id} })
             .then((res)=>{
                 console.log("successful upvote", res.data)
@@ -71,6 +74,7 @@ function Item() {
         }
     
         function downvote(id: string){
+            console.log("downvote id test", id)
             axios.put("/downvote_object", {}, {headers: {objectID: id} })
             .then((res)=>{
                 console.log("successful downvote", res.data)
