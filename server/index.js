@@ -11,6 +11,8 @@ const awsBucketName = process.env.AWS_BUCKET_NAME
 const awsRegion = process.env.AWS_BUCKET_REGION
 const awsKey = process.env.AWS_BUCKET_KEY
 const awsSecret = process.env.AWS_SECRET_KEY 
+const ObjectID = require('mongodb').ObjectId;
+
 const s3 = new S3({
   region: awsRegion, 
   accessKeyId: awsKey, 
@@ -40,9 +42,9 @@ app.get('/test', (req, res) => {
 })
 
 app.put("/upvote_object", (req, res)=>{
-  console.log("got to downvote obj", req.headers._id)
+  console.log("got to downvote obj", ObjectId(req.headers._id))
   objectsCollection.updateOne(
-    {_id: req.headers._id},
+    {_id: ObjectId(req.headers._id)},
     { $inc: { upvotes: 1 } }
     )
     .then((response)=>{
@@ -55,9 +57,9 @@ app.put("/upvote_object", (req, res)=>{
 
 
 app.put("/downvote_object", (req, res)=>{
-  console.log("got to downvote obj", req.headers._id)
+  console.log("got to downvote obj", ObjectId(req.headers._id))
   objectsCollection.updateOne(
-    {_id: req.headers._id},
+    {_id: ObjectId(req.headers._id)},
     { $inc: { downvotes: 1 } }
     )
     .then((response)=>{
