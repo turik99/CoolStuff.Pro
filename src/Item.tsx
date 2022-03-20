@@ -12,7 +12,7 @@ function Item() {
 
     const ObjectWindow = (props: ObjectWindowProps) => {
         const [objectsArray, setObjectsArray] = useState<ObjectType[]>(() => {
-            var obj: ObjectType = { id: "", name: "", description: "", imageUrl: "", categories: [""], upvotes: 0, downvotes: 0 }
+            var obj: ObjectType = { id: "_", name: "_", description: "_", imageUrl: "_", categories: ["_"], upvotes: 0, downvotes: 0 }
             var array: ObjectType[] = [obj, obj]
             return array
         })
