@@ -18,7 +18,7 @@ function Item() {
         })
 
         useEffect(() => {
-            axios.get<ObjectType[]>("/get_new_objects", { headers: { "quantity": props.numberOfItems, "categories": props.categories[0] } })
+            axios.get<ObjectType[]>("/get_new_objects", { headers: { "quantity": props.numberOfItems, "categories": props.categories[0].toLowerCase() } })
                 .then((result) => {
                     console.log("result from get new objs", result)
                     setObjectsArray(result.data)
@@ -90,7 +90,7 @@ function Item() {
         })
 
         useEffect(() => {
-            axios.get<ObjectType[]>("/get_top_objects", { headers: { "quantity": props.numberOfItems, "categories": props.categories[0] } })
+            axios.get<ObjectType[]>("/get_top_objects", { headers: { "quantity": props.numberOfItems, "categories": props.categories[0].toLowerCase() } })
                 .then((result) => {
                     console.log("result from get new objs", result)
                     setResultsArray(result.data)

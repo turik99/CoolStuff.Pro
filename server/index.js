@@ -22,7 +22,8 @@ app.use(express.json())
 console.log("env test", process.env)
 console.log("env test FUCK", process.env.FUCK)
 console.log("env mongo pass test", process.env.MONGODB_PASSWORD)
-const uri = "mongodb+srv://best-things-server:" + process.env.MONGODB_PASSWORD + "@cluster0.dewpn.mongodb.net/bestThingsDB?retryWrites=true&w=majority"
+const uri = "mongodb+srv://best-things-server:" + process.env.MONGODB_PASSWORD +
+ "@cluster0.dewpn.mongodb.net/bestThingsDB?retryWrites=true&w=majority"
 const mongoClient = new MongoClient(uri)
 mongoClient.connect()
 const db = mongoClient.db("bestThingsDB")
@@ -62,6 +63,9 @@ app.get("/downvote_object", (req, res)=>{
 })
 
 
+
+
+
 app.get("/get_new_objects", (req, res) => {
     console.log("got to /get_new_objects")
     console.log(req.headers)
@@ -70,7 +74,7 @@ app.get("/get_new_objects", (req, res) => {
     var categories = req.headers.categories
     console.log("categories header value", categories)
 
-    objectsCollection.find( { categories: categories[0].toLowerCase() } ).toArray()
+    objectsCollection.find( { categories: categories[0] } ).toArray()
     .then((results)=>{
       var objectsArray = results
       var finalArray = []
@@ -86,6 +90,36 @@ app.get("/get_new_objects", (req, res) => {
       res.status(500).send(error)
     })
 })
+
+app.get("/get_top_objects", (req, res) => {
+  console.log("got to /get_new_objects")
+  console.log(req.headers)
+  var quantity = req.headers.quantity
+  console.log(req.headers.categories)
+  var categories = req.headers.categories
+  console.log("categories header value", categories)
+
+  objectsCollection.find( { categories: categories[0] } ).toArray()
+  .then((results)=>{
+    var objectsArray = results
+    var finalArray = []
+    var x = 0;
+    while (x<quantity){
+      finalArray.push(objectsArray[x])
+      x++
+    }
+    console.log("data from mongo", results)
+    res.status(200).send(finalArray)
+  })
+  .catch((error)=>{
+    res.status(500).send(error)
+  })
+})
+
+
+
+
+
 
 app.post("/enter_new_object", (req, res) => {
   console.log("got to /enter_new_object")
