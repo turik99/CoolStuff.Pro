@@ -10,9 +10,6 @@ function Item() {
     console.log("data test", title)
     const [votingFinished, setVotingFinished] = useState(false)
     
-    if (localStorage.getItem(title) !== null){
-        setVotingFinished(true)
-    }
 
     const [items, setItems] = useState(()=>{
         var array:ObjectType[] = []
@@ -20,9 +17,12 @@ function Item() {
         return array
     })
     
+    if (localStorage.getItem(title) != null){
+        setVotingFinished(true)
+    }
+
     useEffect(()=>{
         if (votingFinished){
-            localStorage.setItem(title, "true");
             axios.get<ObjectType[]>("/get_new_objects", {headers: {quantity: 7, categories: title}})
             .then((res)=>{
                 if (res.data[0] != null){
@@ -51,6 +51,7 @@ function Item() {
                 console.log(error)
                 setItems([{_id: "", name: "", description: "", imageUrl: "", categories: [""], upvotes: 0, downvotes: 0}])
             })
+        
         }
     }, [votingFinished])
 
@@ -78,6 +79,7 @@ function Item() {
             .then((res)=>{
                 console.log("successful upvote", res.data)
                 if (currentItem + 1 === items.length){
+                    localStorage.setItem(title, title);
                     setVotingFinished(true)
                 }
                 else{
@@ -96,6 +98,7 @@ function Item() {
                 console.log("successful downvote", res.data)
                 if (currentItem + 1 === items.length){
                     setVotingFinished(true)
+                    localStorage.setItem(title, title);
                 }
                 else{
                     setCurrentItem(currentItem + 1)
@@ -161,6 +164,7 @@ const ResultItem = (props: ResultItemProps) => {
         <div style={{display: "flex", justifyContent: "right", width: "144pt"}}>
             <h3 style={{fontFamily: "Futura", color: "white", margin: "12pt"}}>{props.item.name}</h3>
         </div>
+        
         <div style={{width: barWidth, height: "18pt", background: "white", margin: "12pt"}}></div>
     </div>)
 }
