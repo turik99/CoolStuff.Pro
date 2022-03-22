@@ -83,10 +83,10 @@ app.get("/get_new_objects", (req, res) => {
     console.log("categories header value", categories)
     var category = "cars"
     if (typeof categories === "string"){
-      category = categories.toLowerCase().replace(" ", "")
+      category = categories.toLowerCase().replace(" ", "_")
     }
     else{
-      category = categories[0].toLowerCase().replace(" ", "")
+      category = categories[0].toLowerCase().replace(" ", "_")
     }
 
     objectsCollection.find( { categories: category } ).toArray()
@@ -98,10 +98,10 @@ app.get("/get_new_objects", (req, res) => {
         finalArray.push(objectsArray[x])
         x++
       }
-      
-      if (!allAreNull(finalArray)){
+
+      if (finalArray[0] != null){
         console.log("data from mongo", results)
-        res.status(200).send(finalArray)  
+        res.status(200).send(finalArray)
       }
       else{
         res.status(500).send("array was null")
@@ -120,22 +120,32 @@ app.get("/get_top_objects", (req, res) => {
   var categories = req.headers.categories
   var category = "cars"
   if (typeof categories === "string"){
-    category = categories.toLowerCase().replace(" ", "")
+    category = categories.toLowerCase().replace(" ", "_")
   }
   else{
-    category = categories[0].toLowerCase().replace(" ", "")
+    category = categories[0].toLowerCase().replace(" ", "_")
   }
   
   objectsCollection.find( { categories: category } ).toArray()
   .then((results)=>{
     var objectsArray = results
     var finalArray = []
-    var x = 0;
-    while (x<quantity){
-      finalArray.push(objectsArray[x])
+
+    var x = 0; 
+    while(x<objectsArray.length){
+      objectsArray[x].upvoteShare = objectsArray[x].upvotes / (objectsArray[x].upvotes + objectsArray[x].downvotes)
       x++
     }
-    if (!allAreNull(finalArray)){
+
+    //sorty by upvote share so we can get the top objects
+    objectsArray.sort((a, b) => (a.upvoteShare > b.upvoteShare) ? 1 : -1)
+    var i = 0;
+    while(i<quantity){
+      finalArray.push(objectsArray[i])
+      i++
+    }
+    
+    if (finalArray[0] != null){
       console.log("data from mongo", results)
       res.status(200).send(finalArray)  
     }

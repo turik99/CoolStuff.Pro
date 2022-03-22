@@ -19,24 +19,40 @@ function Item() {
         array.push({_id: "", name: "", description: "", imageUrl: "", categories: [""], upvotes: 0, downvotes: 0})
         return array
     })
+    
     useEffect(()=>{
         if (votingFinished){
+            localStorage.setItem(title, "true");
             axios.get<ObjectType[]>("/get_new_objects", {headers: {quantity: 7, categories: title}})
             .then((res)=>{
-                setItems(res.data)
+                if (res.data[0] != null){
+                    setItems(res.data)
+                }
+                else{
+                    setItems([{_id: "", name: "", description: "", imageUrl: "", categories: [""], upvotes: 0, downvotes: 0}])
+                }
+            })
+            .catch((error)=>{
+                console.log(error)
+                setItems([{_id: "", name: "", description: "", imageUrl: "", categories: [""], upvotes: 0, downvotes: 0}])
             })
         }
         else{
             axios.get<ObjectType[]>("/get_top_objects", {headers: {quantity: 10, categories: title}})
             .then((res)=>{
-                setItems(res.data)
+                if (res.data[0] != null){
+                    setItems(res.data)
+                }
+                else{
+                    setItems([{_id: "", name: "", description: "", imageUrl: "", categories: [""], upvotes: 0, downvotes: 0}])
+                }
+            })
+            .catch((error)=>{
+                console.log(error)
+                setItems([{_id: "", name: "", description: "", imageUrl: "", categories: [""], upvotes: 0, downvotes: 0}])
             })
         }
     }, [votingFinished])
-
-
-
-
 
     const ItemCardView = (props: ItemCardViewProps) => {
         const [currentItem, setCurrentItem] = useState(0) 
@@ -142,8 +158,10 @@ const ResultItem = (props: ResultItemProps) => {
     console.log("bar width test", barWidth)
     return(
     <div style={{display: "flex", flexDirection: "row"}}>
-        <h3 style={{fontFamily: "Futura", color: "white"}}>{props.item.name}</h3>
-        <div style={{width: barWidth, height: "18pt", background: "white"}}></div>
+        <div style={{display: "flex", justifyContent: "right", width: "144pt"}}>
+            <h3 style={{fontFamily: "Futura", color: "white", margin: "12pt"}}>{props.item.name}</h3>
+        </div>
+        <div style={{width: barWidth, height: "18pt", background: "white", margin: "12pt"}}></div>
     </div>)
 }
 

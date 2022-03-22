@@ -84,7 +84,7 @@ const UploadObjectView = () => {
       })
   }
   function uploadObject(){
-    var uploadItem: UploadItem = {name: name, description: description, imageUrl: imageUrl, categories: categories, upvotes: 0, downvotes: 0}
+    var uploadItem: UploadItem = {name: name, description: description, imageUrl: imageUrl, categories: categories, upvotes: 1, downvotes: 1}
     if (imageUrl !== ""){
       axios.post("/enter_new_object", JSON.stringify(uploadItem), {headers: {"Content-Type": "application/json"}})
       .then((result)=>{
