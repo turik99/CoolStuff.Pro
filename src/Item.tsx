@@ -17,13 +17,12 @@ function Item() {
         return array
     })
     
-    if (localStorage.getItem(title) != null){
-        setVotingFinished(true)
-    }
+    
 
     useEffect(()=>{
-        if (votingFinished){
-            axios.get<ObjectType[]>("/get_new_objects", {headers: {quantity: 7, categories: title}})
+        //Checking if voting is either finished or the user already visited and voted
+        if (votingFinished || localStorage.getItem(title) != null){
+            axios.get<ObjectType[]>("/get_top_objects", {headers: {quantity: 10, categories: title}})
             .then((res)=>{
                 if (res.data[0] != null){
                     setItems(res.data)
@@ -37,8 +36,8 @@ function Item() {
                 setItems([{_id: "", name: "", description: "", imageUrl: "", categories: [""], upvotes: 0, downvotes: 0}])
             })
         }
-        else{
-            axios.get<ObjectType[]>("/get_top_objects", {headers: {quantity: 10, categories: title}})
+        else {
+            axios.get<ObjectType[]>("/get_new_objects", {headers: {quantity: 7, categories: title}})
             .then((res)=>{
                 if (res.data[0] != null){
                     setItems(res.data)
@@ -164,7 +163,7 @@ const ResultItem = (props: ResultItemProps) => {
         <div style={{display: "flex", justifyContent: "right", width: "144pt"}}>
             <h3 style={{fontFamily: "Futura", color: "white", margin: "12pt"}}>{props.item.name}</h3>
         </div>
-        
+
         <div style={{width: barWidth, height: "18pt", background: "white", margin: "12pt"}}></div>
     </div>)
 }
