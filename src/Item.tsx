@@ -112,7 +112,7 @@ function Item() {
     }
 
     var windowContent = <ItemCardView items={items}/>
-    if (votingFinished){
+    if (votingFinished || localStorage.getItem(title) != null){
         windowContent = <ResultsPage items={items} />
     }
     return(
