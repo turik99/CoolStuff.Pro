@@ -1,17 +1,12 @@
 import React, { useState, useEffect} from 'react';
-import GridLayout from './GridLayout';
 import './App.css';
-import likeImage from "./thumbup.svg"
-import dislikeImage from "./thumbdown.svg"
 import axios from 'axios';
 import FormData from 'form-data';
 import Home from "./Home"
 import Item from './Item';
 import {BrowserRouter, Route, Routes, Router, Link} from "react-router-dom"
-
 function App() {
   return (
-  
     <BrowserRouter  >
     <div style={{background: "#1C3FFF", height: "100vh"}}>
     <Link to="/" style={{textDecoration: "none"}}>

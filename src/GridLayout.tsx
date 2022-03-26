@@ -1,5 +1,5 @@
 import teslaoutline from "./images/tesla_outline.svg"
-import computeroutline from "./images/laptop_art.png"
+import computeroutline from "./images/laptop_outline.svg"
 import foodoutline from "./images/food_art.svg"
 import appsoutline from "./images/apps_art.svg"
 import fashionoutline from "./images/lv_bag_outline.svg"

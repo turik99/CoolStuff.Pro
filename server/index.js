@@ -138,7 +138,7 @@ app.get("/get_top_objects", (req, res) => {
     }
 
     //sorty by upvote share so we can get the top objects
-    objectsArray.sort((a, b) => (a.upvoteShare > b.upvoteShare) ? 1 : -1)
+    objectsArray.sort((a, b) => (a.upvoteShare < b.upvoteShare) ? 1 : -1)
     var i = 0;
     while(i<quantity){
       finalArray.push(objectsArray[i])

@@ -4,13 +4,13 @@ import likeImage from "./images/thumbup.svg"
 import dislikeImage from "./images/thumbdown.svg"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
+import ReactTooltip from 'react-tooltip';
+
 function Item() {
     const params = useParams();
     const title = params.title as string
     console.log("data test", title)
     const [votingFinished, setVotingFinished] = useState(false)
-    
-
     const [items, setItems] = useState(()=>{
         var array:ObjectType[] = []
         array.push({_id: "", name: "", description: "", imageUrl: "", categories: [""], upvotes: 0, downvotes: 0})
@@ -53,19 +53,18 @@ function Item() {
     }, [votingFinished])
 
     const ItemCardView = (props: ItemCardViewProps) => {
-        const [currentItem, setCurrentItem] = useState(0) 
-        const remaining = currentItem - props.items.length
+        const [currentItem, setCurrentItem] = useState(0)
+        const remaining = props.items.length - currentItem
 
         console.log("item props test", props)
         return(
             <div style={{display: "flex", alignItems: "center", marginTop: "12pt", flexDirection: 'column'}}>
                 <div style={{display: "flex",  marginTop: 0, alignItems: "center", flexDirection:"column"}}>                
-                    <p style={{margin: "12pt", color: "white", fontFamily: "Futura", fontStyle: "italic", fontSize: "15pt"}}>(vote on  a few items to see results)</p>
+                    <p style={{margin: "4pt", color: "white", fontFamily: "Futura", fontStyle: "italic", fontSize: "15pt"}}>(vote on  a few items to see results)</p>
                     <p style={{margin: "4pt", color: "white", fontFamily: "Futura", fontStyle: "italic", fontSize: "15pt"}}>{remaining} item(s) remaining</p>
-
                 </div>
                 
-            <div style={{width: "288pt", height: "360pt", display: "flex", flexDirection: "column", alignItems: "center"}}>
+            <div style={{width: "288pt", height: "360pt", display: "flex", flexDirection: "column", alignItems: "center", border: "solid white"}}>
                 <h2 style={{color: "white", fontFamily: "Futura"}}>{props.items[currentItem].name}</h2>
                 <img src={props.items[currentItem].imageUrl} style={{width: "288pt", height: "auto"}}></img>
                 <div style={{display: "flex", justifyContent: "center", marginTop: "auto", marginBottom: "12pt"}}>
@@ -169,9 +168,9 @@ const ResultItem = (props: ResultItemProps) => {
         <div style={{display: "flex", justifyContent: "right", width: "144pt"}}>
             <h3 style={{fontFamily: "Futura", color: "white", margin: "12pt"}}>{props.item.name}</h3>
         </div>
-
-        <div style={{width: barWidth, height: "18pt", background: "#6eff81", margin: "12pt"}}></div>
-        <div style={{width: oppositeBarWidth, height: "18pt", background: "#e65757", margin: "12pt"}}></div>
+        <ReactTooltip />
+        <div data-tip={upvoteShare + " liked"} style={{width: barWidth, height: "18pt", background: "#6eff81", marginTop: "12pt", marginBottom: "12pt", marginLeft: "12pt"}}></div>
+        <div data-tip={1-upvoteShare + " disliked"} style={{width: oppositeBarWidth, height: "18pt", background: "#f54949", marginTop: "12pt", marginBottom: "12pt"}}></div>
         
     </div>)
 }
@@ -184,9 +183,11 @@ const ResultsPage = (props: ResultsPageProps) => {
         x++
     }
     return (
-    <div style={{ display: "flex", background: "#1C3FFF", justifyContent: "left", flexDirection: "column", marginLeft: "144pt", marginTop: "12pt" }}>
-        <p style={{fontFamily: "Futura", color: "white", margin: "12pt", fontSize: "24pt"}}>Top&nbsp;{props.items[0].categories}s</p>
-        {viewArray}
+    <div style={{ display: "flex", background: "#1C3FFF", alignItems: "center", flexDirection: "column", marginLeft: "144pt", marginTop: "12pt" }}>
+        <p style={{fontFamily: "Futura", fontWeight: 'bold', color: "white", margin: "12pt", fontSize: "24pt"}}>Top&nbsp;{props.items[0].categories}</p>
+        <div style={{ display: "flex", background: "#1C3FFF", justifyContent: "left", flexDirection: "column", marginLeft: "144pt", marginTop: "12pt" }}>
+            {viewArray}
+        </div>
     </div>)
 }
 
