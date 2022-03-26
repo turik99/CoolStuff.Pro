@@ -169,8 +169,8 @@ const ResultItem = (props: ResultItemProps) => {
             <h3 style={{fontFamily: "Futura", color: "white", margin: "12pt"}}>{props.item.name}</h3>
         </div>
         <ReactTooltip />
-        <div data-tip={upvoteShare + " liked"} style={{width: barWidth, height: "18pt", background: "#6eff81", marginTop: "12pt", marginBottom: "12pt", marginLeft: "12pt"}}></div>
-        <div data-tip={1-upvoteShare + " disliked"} style={{width: oppositeBarWidth, height: "18pt", background: "#f54949", marginTop: "12pt", marginBottom: "12pt"}}></div>
+        <div data-tip={upvoteShare * 100+ "% liked"} style={{width: barWidth, height: "18pt", background: "#6eff81", marginTop: "12pt", marginBottom: "12pt", marginLeft: "12pt"}}></div>
+        <div data-tip={1-upvoteShare *100 + "% disliked"} style={{width: oppositeBarWidth, height: "18pt", background: "#f54949", marginTop: "12pt", marginBottom: "12pt"}}></div>
         
     </div>)
 }
@@ -183,7 +183,7 @@ const ResultsPage = (props: ResultsPageProps) => {
         x++
     }
     return (
-    <div style={{ display: "flex", background: "#1C3FFF", alignItems: "center", flexDirection: "column", marginLeft: "144pt", marginTop: "12pt" }}>
+    <div style={{ display: "flex", background: "#1C3FFF", alignItems: "center", flexDirection: "column", marginLeft: "0pt", marginTop: "12pt" }}>
         <p style={{fontFamily: "Futura", fontWeight: 'bold', color: "white", margin: "12pt", fontSize: "24pt"}}>Top&nbsp;{props.items[0].categories}</p>
         <div style={{ display: "flex", background: "#1C3FFF", justifyContent: "left", flexDirection: "column", marginLeft: "144pt", marginTop: "12pt" }}>
             {viewArray}
