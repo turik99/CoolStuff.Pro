@@ -17,8 +17,6 @@ function Item() {
         return array
     })
     
-    
-
     useEffect(()=>{
         //Checking if voting is either finished or the user already visited and voted
         if (votingFinished || localStorage.getItem(title) != null){
@@ -56,11 +54,18 @@ function Item() {
 
     const ItemCardView = (props: ItemCardViewProps) => {
         const [currentItem, setCurrentItem] = useState(0) 
-    
+        const remaining = currentItem - props.items.length
+
         console.log("item props test", props)
         return(
-            <div style={{display: "flex", justifyContent: "center"}}>
-                <div style={{width: "288pt", height: "360pt", display: "flex", flexDirection: "column", justifyContent: "center"}}>
+            <div style={{display: "flex", alignItems: "center", marginTop: "12pt", flexDirection: 'column'}}>
+                <div style={{display: "flex",  marginTop: 0, alignItems: "center", flexDirection:"column"}}>                
+                    <p style={{margin: "12pt", color: "white", fontFamily: "Futura", fontStyle: "italic", fontSize: "15pt"}}>(vote on  a few items to see results)</p>
+                    <p style={{margin: "4pt", color: "white", fontFamily: "Futura", fontStyle: "italic", fontSize: "15pt"}}>{remaining} item(s) remaining</p>
+
+                </div>
+                
+            <div style={{width: "288pt", height: "360pt", display: "flex", flexDirection: "column", alignItems: "center"}}>
                 <h2 style={{color: "white", fontFamily: "Futura"}}>{props.items[currentItem].name}</h2>
                 <img src={props.items[currentItem].imageUrl} style={{width: "288pt", height: "auto"}}></img>
                 <div style={{display: "flex", justifyContent: "center", marginTop: "auto", marginBottom: "12pt"}}>
@@ -157,6 +162,7 @@ const ResultItem = (props: ResultItemProps) => {
     var upvoteShare: number = props.item.upvotes/totalVotes
     const FullBarWidthInPts:number = 432;
     const barWidth:string = (upvoteShare * FullBarWidthInPts).toString().concat("pt")
+    const oppositeBarWidth = ( (1 - upvoteShare) * FullBarWidthInPts).toString().concat("pt")
     console.log("bar width test", barWidth)
     return(
     <div style={{display: "flex", flexDirection: "row"}}>
@@ -164,7 +170,9 @@ const ResultItem = (props: ResultItemProps) => {
             <h3 style={{fontFamily: "Futura", color: "white", margin: "12pt"}}>{props.item.name}</h3>
         </div>
 
-        <div style={{width: barWidth, height: "18pt", background: "white", margin: "12pt"}}></div>
+        <div style={{width: barWidth, height: "18pt", background: "#6eff81", margin: "12pt"}}></div>
+        <div style={{width: oppositeBarWidth, height: "18pt", background: "#e65757", margin: "12pt"}}></div>
+        
     </div>)
 }
 
@@ -176,7 +184,8 @@ const ResultsPage = (props: ResultsPageProps) => {
         x++
     }
     return (
-    <div style={{ display: "flex", background: "#1C3FFF", justifyContent: "left", flexDirection: "column", marginLeft: "144pt" }}>
+    <div style={{ display: "flex", background: "#1C3FFF", justifyContent: "left", flexDirection: "column", marginLeft: "144pt", marginTop: "12pt" }}>
+        <p style={{fontFamily: "Futura", color: "white", margin: "12pt", fontSize: "24pt"}}>Top&nbsp;{props.items[0].categories}s</p>
         {viewArray}
     </div>)
 }

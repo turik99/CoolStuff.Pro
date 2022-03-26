@@ -2,20 +2,20 @@ import teslaoutline from "./images/tesla_outline.svg"
 import computeroutline from "./images/laptop_art.png"
 import foodoutline from "./images/food_art.svg"
 import appsoutline from "./images/apps_art.svg"
+import fashionoutline from "./images/lv_bag_outline.svg"
+import videogamesoutline from "./images/xbox_controller.svg"
 import { useNavigate } from "react-router-dom"
 
   
 function GridLayout(){
-
-
-    return (
+return (
     <div style={{display: "inline-grid", gridTemplateColumns: "auto auto auto"}}>
         <GridItem imageUrl={teslaoutline} title={"Cars"}/>
         <GridItem imageUrl={computeroutline} title={"Computers"}/>
         <GridItem imageUrl={foodoutline} title={"Food"}/>
         <GridItem imageUrl={appsoutline} title={"Apps"}/>
-        <GridItem imageUrl={teslaoutline} title={"Clothes"}/>
-        <GridItem imageUrl={teslaoutline} title={"Video Games"}/>
+        <GridItem imageUrl={fashionoutline} title={"Fashion"}/>
+        <GridItem imageUrl={videogamesoutline} title={"Video Games"}/>
     </div>)
 }
 
