@@ -29,7 +29,7 @@ const GridItem = (props: GridItemProps) =>{
     return (
     <div className="item_style" onClick={()=> {  navigate("/items/" + props.title.replaceAll(" ", "_"))} } >
         <img src={props.imageUrl} style={{height: "100pt", marginInline: "6pt", marginTop: "24pt"}}></img>
-        <h3 style={{marginTop: "auto", marginBottom: "12pt", alignSelf: "center", color: "white", fontFamily: "Futura", textDecoration: "underline"}}>{props.title}</h3>
+        <h3 style={{marginTop: "auto", paddingTop: "12pt", marginBottom: "0pt", alignSelf: "center", color: "white", fontFamily: "Futura", textDecoration: "underline"}}>{props.title}</h3>
     </div>)
 }
 export default GridLayout
