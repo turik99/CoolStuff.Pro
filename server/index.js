@@ -83,10 +83,10 @@ app.get("/get_new_objects", (req, res) => {
     console.log("categories header value", categories)
     var category = "cars"
     if (typeof categories === "string"){
-      category = categories.toLowerCase().replace(" ", "_")
+      category = categories.toLowerCase()
     }
     else{
-      category = categories[0].toLowerCase().replace(" ", "_")
+      category = categories[0].toLowerCase()
     }
 
     objectsCollection.find( { categories: category } ).toArray()
@@ -120,10 +120,10 @@ app.get("/get_top_objects", (req, res) => {
   var categories = req.headers.categories
   var category = "cars"
   if (typeof categories === "string"){
-    category = categories.toLowerCase().replace(" ", "_")
+    category = categories
   }
   else{
-    category = categories[0].toLowerCase().replace(" ", "_")
+    category = categories[0]
   }
   
   objectsCollection.find( { categories: category } ).toArray()

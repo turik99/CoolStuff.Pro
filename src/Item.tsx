@@ -155,7 +155,6 @@ interface ResultItemProps{
 }
 
 const ResultItem = (props: ResultItemProps) => {
-
     console.log("result item props", props)
     var totalVotes: number = props.item.upvotes + props.item.downvotes
     var upvoteShare: number = props.item.upvotes/totalVotes
