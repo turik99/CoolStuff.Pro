@@ -123,11 +123,6 @@ function Item() {
     <div>
         {windowContent}
     </div>)
-
-
-
-
-    
 }
 
 

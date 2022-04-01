@@ -11,10 +11,10 @@ function GridLayout(){
 return (
     <div style={{display: "inline-grid", gridTemplateColumns: "auto auto auto"}}>
         <GridItem imageUrl={teslaoutline} title={"Cars"}/>
-        <GridItem imageUrl={computeroutline} title={"Computers"}/>
-        <GridItem imageUrl={foodoutline} title={"Food"}/>
+        {/* <GridItem imageUrl={computeroutline} title={"Computers"}/> */}
+        {/* <GridItem imageUrl={foodoutline} title={"Food"}/> */}
         <GridItem imageUrl={appsoutline} title={"Apps"}/>
-        <GridItem imageUrl={fashionoutline} title={"Fashion"}/>
+        {/* <GridItem imageUrl={fashionoutline} title={"Fashion"}/> */}
         <GridItem imageUrl={videogamesoutline} title={"Video Games"}/>
     </div>)
 }
