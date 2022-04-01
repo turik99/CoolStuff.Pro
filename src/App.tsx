@@ -61,6 +61,7 @@ const UploadObjectView = () => {
       <input value={categories}
         onChange={(e) => {setCategories(e.target.value.split(","))}} ></input>
       <button onClick={()=>{uploadObject()}}>Upload Object</button>
+      
     </div>)
 
   function uploadImageToS3(image: File){
@@ -78,12 +79,18 @@ const UploadObjectView = () => {
         console.log(error)
       })
   }
+
   function uploadObject(){
     var uploadItem: UploadItem = {name: name, description: description, imageUrl: imageUrl, categories: categories, upvotes: 1, downvotes: 1}
     if (imageUrl !== ""){
       axios.post("/enter_new_object", JSON.stringify(uploadItem), {headers: {"Content-Type": "application/json"}})
       .then((result)=>{
         console.log("result from enter new item", result)
+        setName("")
+        setDescription("")
+        setCategories([""])
+        setImageUrl("")
+
       })
       .catch((error)=>{
         console.log("error from new item", error)
