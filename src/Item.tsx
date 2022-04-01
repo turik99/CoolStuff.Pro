@@ -168,8 +168,8 @@ const ResultItem = (props: ResultItemProps) => {
             <h3 style={{fontFamily: "Futura", color: "white", margin: "12pt"}}>{props.item.name}</h3>
         </div>
         <ReactTooltip />
-        <div data-tip={upvoteShare * 100+ "% liked"} style={{width: barWidth, height: "18pt", background: "#6eff81", marginTop: "12pt", marginBottom: "12pt", marginLeft: "12pt"}}></div>
-        <div data-tip={(1-upvoteShare )* 100 + "% disliked"} style={{width: oppositeBarWidth, height: "18pt", background: "#f54949", marginTop: "12pt", marginBottom: "12pt"}}></div>
+        <div data-tip={ Math.round(upvoteShare * 100) + "% liked"} style={{width: barWidth, height: "18pt", background: "#6eff81", marginTop: "12pt", marginBottom: "12pt", marginLeft: "12pt"}}></div>
+        <div data-tip={Math.round((1-upvoteShare )* 100) + "% disliked"} style={{width: oppositeBarWidth, height: "18pt", background: "#f54949", marginTop: "12pt", marginBottom: "12pt"}}></div>
         
     </div>)
 }
@@ -189,6 +189,8 @@ const ResultsPage = (props: ResultsPageProps) => {
         </div>
     </div>)
 }
+
+
 
 
 export default Item
