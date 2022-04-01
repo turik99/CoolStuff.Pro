@@ -83,10 +83,10 @@ app.get("/get_new_objects", (req, res) => {
     console.log("categories header value", categories)
     var category = "cars"
     if (typeof categories === "string"){
-      category = categories.toLowerCase()
+      category = categories
     }
     else{
-      category = categories[0].toLowerCase()
+      category = categories[0]
     }
 
     objectsCollection.find( { categories: category } ).toArray()
