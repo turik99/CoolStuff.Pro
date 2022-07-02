@@ -66,7 +66,7 @@ function Item() {
                 
             <div style={{width: "288pt", height: "360pt", display: "flex", flexDirection: "column", alignItems: "center", border: "solid white"}}>
                 <h2 style={{color: "white", fontFamily: "Futura"}}>{props.items[currentItem].name}</h2>
-                <img src={props.items[currentItem].imageUrl} style={{width: "auto", height: "auto", maxWidth: "288pt", maxHeight: "496pt"}}></img>
+                <img src={props.items[currentItem].imageUrl} style={{width: "auto", height: "auto", maxWidth: "288pt", maxHeight: "288pt"}}></img>
                 <div style={{display: "flex", justifyContent: "center", marginTop: "auto", marginBottom: "12pt"}}>
                     <img style={{width: "48pt"}} onClick={ ()=>{ upvote(props.items[currentItem]._id) } } src={likeImage}></img>
                     <img style={{width: "48pt", marginLeft: "12pt"}} onClick={ ()=>{ downvote( props.items[currentItem]._id ) } } src={dislikeImage}></img>
@@ -179,13 +179,11 @@ const ResultsPage = (props: ResultsPageProps) => {
     return (
     <div style={{ display: "flex", background: "#1C3FFF", alignItems: "center", flexDirection: "column", marginLeft: "0pt", marginTop: "12pt" }}>
         <p style={{fontFamily: "Futura", fontWeight: 'bold', color: "white", margin: "12pt", fontSize: "24pt"}}>Top&nbsp;{props.items[0].categories}</p>
+        <p style={{fontFamily: "Futura", fontStyle: "italic", color: "white", margin: "12pt", fontSize: "15pt"}}>as rated by the community</p>
         <div style={{ display: "flex", background: "#1C3FFF", justifyContent: "left", flexDirection: "column", marginLeft: "0pt", marginTop: "12pt" }}>
             {viewArray}
         </div>
     </div>)
 }
-
-
-
 
 export default Item
