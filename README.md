@@ -9,8 +9,8 @@ The project is written in TypeScript with React.js on the frontend and Node.js/E
 
 Below are screenshots. You can also check out the website at https://www.coolstuff.pro
 
-<img src="https://i.postimg.cc/9DdkYQz6/Screen-Shot-2022-10-22-at-3-12-25-PM.png" width="400" > </img>
+<img src="https://i.postimg.cc/Ytq26gyY/Screen-Shot-2022-10-22-at-3-12-25-PM.png" width="400" > </img>
 
-<img src="https://i.postimg.cc/FY5qSLFb/Screen-Shot-2022-10-22-at-3-12-43-PM.png" width="400"> </img>
+<img src="https://i.postimg.cc/2rYS5gQH/Screen-Shot-2022-10-22-at-3-12-53-PM.png" width="400"> </img>
 
-<img src="https://i.postimg.cc/0bJFrfv2/Screen-Shot-2022-10-22-at-3-12-53-PM.png" width="400"> </img>
+<img src="https://i.postimg.cc/kqyXRww7/Screen-Shot-2022-10-22-at-3-12-43-PM.png" width="400"> </img>
