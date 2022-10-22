@@ -1,9 +1,12 @@
 # CoolStuff.Pro
 
 This project was written to show my skills as a front end and back end developer. 
+
 The website is simple; choose a product category you're curious about, vote yae or nae on a few items shown to you, and then see the results of everyone who visited before you.
 
+
 Inside you'll see endpoints I wrote to interact with an AWS S3 server, assets I created to theme the website properly, and components I wrote to interact with all the data in a composable, clean manner.
+
 
 The project is written in TypeScript with React.js on the frontend and Node.js/Express on the back end.
 
